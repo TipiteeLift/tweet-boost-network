@@ -1,9 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { NotificationCenter } from "./NotificationCenter";
+import { LiveFeedModal } from "./LiveFeedModal";
 import { Bell, Search, Calendar, Activity } from "lucide-react";
+import { useState } from "react";
 
 export const DashboardHeader = () => {
+  const [isLiveFeedOpen, setIsLiveFeedOpen] = useState(false);
   return (
     <div className="bg-card border-b border-border p-4">
       <div className="flex items-center justify-between">
@@ -35,21 +39,28 @@ export const DashboardHeader = () => {
             12 day streak
           </Badge>
           
-          <Button variant="ghost" size="sm">
-            <Bell className="w-4 h-4" />
-          </Button>
+          <NotificationCenter />
           
           <Button variant="outline" size="sm">
             <Calendar className="w-4 h-4 mr-2" />
             Schedule
           </Button>
           
-          <Button variant="default" size="sm">
+          <Button 
+            variant="default" 
+            size="sm"
+            onClick={() => setIsLiveFeedOpen(true)}
+          >
             <Activity className="w-4 h-4 mr-2" />
             Live Feed
           </Button>
         </div>
       </div>
+      
+      <LiveFeedModal 
+        isOpen={isLiveFeedOpen} 
+        onClose={() => setIsLiveFeedOpen(false)} 
+      />
     </div>
   );
 };

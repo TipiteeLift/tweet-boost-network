@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { TweetComposer } from "./TweetComposer";
 import { NavLink, useLocation } from "react-router-dom";
+import { useState } from "react";
 import { 
   Home, 
   Users, 
@@ -19,6 +21,7 @@ interface DashboardSidebarProps {
 
 export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProps) => {
   const location = useLocation();
+  const [isTweetComposerOpen, setIsTweetComposerOpen] = useState(false);
   
   const navigationItems = [
     { icon: Home, label: "Dashboard", path: "/" },
@@ -47,7 +50,7 @@ export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProp
         
         <div className="mt-3 flex items-center space-x-4">
           <div className="text-center">
-            <div className="text-lg font-bold text-primary">999,999</div>
+            <div className="text-lg font-bold text-primary">{userPoints.toLocaleString()}</div>
             <div className="text-xs text-muted-foreground">Points</div>
           </div>
           <div className="text-center">
@@ -75,7 +78,12 @@ export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProp
         </nav>
 
         {/* Submit Tweet Button */}
-        <Button className="w-full mt-6" size="sm">
+        <Button 
+          className="w-full mt-6" 
+          size="sm"
+          onClick={() => setIsTweetComposerOpen(true)}
+          disabled={userPoints < 10}
+        >
           + Submit Tweet
         </Button>
 
@@ -122,6 +130,12 @@ export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProp
           Settings
         </Button>
       </div>
+      
+      <TweetComposer 
+        isOpen={isTweetComposerOpen}
+        onClose={() => setIsTweetComposerOpen(false)}
+        userPoints={userPoints}
+      />
     </div>
   );
 };
