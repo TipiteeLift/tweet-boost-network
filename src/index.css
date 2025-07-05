@@ -2,39 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* LiftX Design System - Modern social media growth platform */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 215 27% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 27% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 27% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Twitter-inspired blue with modern touch */
+    --primary: 203 89% 53%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 203 89% 63%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 215 27% 12%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 13% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 204 94% 94%;
+    --accent-foreground: 203 89% 53%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 203 89% 53%;
+
+    /* Success colors for points/achievements */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning colors for thresholds */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* LiftX Brand Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(203 89% 53%), hsl(203 89% 63%));
+    --gradient-hero: linear-gradient(135deg, hsl(203 89% 53%) 0%, hsl(220 89% 63%) 50%, hsl(260 89% 73%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(220 13% 98%) 100%);
+    
+    /* Elegant shadows with brand color */
+    --shadow-elegant: 0 10px 30px -10px hsl(203 89% 53% / 0.2);
+    --shadow-glow: 0 0 30px hsl(203 89% 63% / 0.3);
+    --shadow-card: 0 4px 20px -4px hsl(203 89% 53% / 0.1);
+
+    /* Smooth animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     --radius: 0.5rem;
 
