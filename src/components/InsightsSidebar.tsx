@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { CommunityLeaderboard } from "./CommunityLeaderboard";
 import { TrendingUp, Users, Clock } from "lucide-react";
 
 export const InsightsSidebar = () => {
@@ -27,6 +28,9 @@ export const InsightsSidebar = () => {
 
   return (
     <div className="w-80 p-4 space-y-4">
+      {/* Community Leaderboard */}
+      <CommunityLeaderboard />
+      
       {/* #InfoFi Insights */}
       <Card>
         <CardHeader className="pb-3">
