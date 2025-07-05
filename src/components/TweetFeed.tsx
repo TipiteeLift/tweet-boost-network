@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { CommunityFilters } from "./CommunityFilters";
+import { StatisticsGrid } from "./StatisticsGrid";
+import { WeeklyEngagementChart } from "./WeeklyEngagementChart";
 import { Heart, MessageCircle, Share, MoreHorizontal, Star, Flame } from "lucide-react";
 
 interface Tweet {
@@ -68,45 +71,28 @@ const mockTweets: Tweet[] = [
   }
 ];
 
-const filterButtons = [
-  { label: "All", active: true },
-  { label: "#InfoFi", active: false },
-  { label: "#Airdrops", active: false },
-  { label: "#DeFi", active: false },
-  { label: "#NFTs", active: false },
-  { label: "#Gaming", active: false },
-  { label: "Advanced", active: false, variant: "premium" as const }
-];
-
 export const TweetFeed = ({ onInteraction, interactions }: TweetFeedProps) => {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("all");
 
   return (
-    <div className="flex-1 p-4">
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-2xl font-bold">Dashboard</h1>
-            <p className="text-muted-foreground">Discover and engage with the crypto community</p>
-          </div>
-        </div>
-
-        {/* Filter Buttons */}
-        <div className="flex items-center space-x-2 mb-6">
-          <span className="text-sm text-muted-foreground mr-2">Filter:</span>
-          {filterButtons.map((filter, index) => (
-            <Button
-              key={index}
-              variant={filter.active ? "default" : filter.variant === "premium" ? "secondary" : "outline"}
-              size="sm"
-              className={filter.variant === "premium" ? "bg-purple-500/10 text-purple-400 hover:bg-purple-500/20" : ""}
-              onClick={() => setActiveFilter(filter.label)}
-            >
-              {filter.label}
-            </Button>
-          ))}
-        </div>
+    <div className="flex-1 p-4 space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <p className="text-muted-foreground">Discover and engage with the crypto community</p>
       </div>
+
+      {/* Statistics Grid */}
+      <StatisticsGrid />
+
+      {/* Weekly Engagement Chart */}
+      <WeeklyEngagementChart />
+
+      {/* Filters */}
+      <CommunityFilters 
+        onFilterChange={setActiveFilter} 
+        activeFilter={activeFilter} 
+      />
 
       {/* Tweet Feed */}
       <div className="space-y-4">

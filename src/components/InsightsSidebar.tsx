@@ -14,9 +14,9 @@ export const InsightsSidebar = () => {
   ];
 
   const trendingTags = [
-    { tag: "#InfoFi", active: true },
-    { tag: "#DataEconomy", active: false },
-    { tag: "#Web3", active: false },
+    { tag: "#InfoFi", active: true, trend: "+23%" },
+    { tag: "#DataEconomy", active: false, trend: "+15%" },
+    { tag: "#Web3", active: false, trend: "+8%" },
   ];
 
   const peakHours = [
@@ -79,15 +79,22 @@ export const InsightsSidebar = () => {
           {/* Trending Tags */}
           <div>
             <div className="text-sm font-medium mb-2">Trending Tags</div>
-            <div className="flex flex-wrap gap-2">
+            <div className="space-y-2">
               {trendingTags.map((item, index) => (
-                <Badge 
+                <div 
                   key={index}
-                  variant={item.active ? "default" : "secondary"}
-                  className="text-xs"
+                  className={`flex items-center justify-between p-2 rounded-lg cursor-pointer transition-colors ${
+                    item.active ? 'bg-primary/10 border border-primary/20' : 'bg-muted/50 hover:bg-muted'
+                  }`}
                 >
-                  {item.tag}
-                </Badge>
+                  <Badge 
+                    variant={item.active ? "default" : "secondary"}
+                    className="text-xs"
+                  >
+                    {item.tag}
+                  </Badge>
+                  <span className="text-xs text-success font-medium">{item.trend}</span>
+                </div>
               ))}
             </div>
           </div>
