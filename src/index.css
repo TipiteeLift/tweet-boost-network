@@ -48,6 +48,8 @@
     --gradient-primary: linear-gradient(135deg, hsl(203 89% 53%), hsl(203 89% 63%));
     --gradient-hero: linear-gradient(135deg, hsl(203 89% 53%) 0%, hsl(220 89% 63%) 50%, hsl(260 89% 73%) 100%);
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(220 13% 98%) 100%);
+    --gradient-achievement: linear-gradient(135deg, hsl(203 89% 53% / 0.1) 0%, hsl(260 89% 73% / 0.1) 100%);
+    --gradient-stats: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
     
     /* Elegant shadows with brand color */
     --shadow-elegant: 0 10px 30px -10px hsl(203 89% 53% / 0.2);
@@ -123,5 +125,77 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .gradient-card {
+    background: var(--gradient-achievement);
+    backdrop-filter: blur(10px);
+  }
+  
+  .stats-card {
+    background: var(--gradient-stats);
+    transition: var(--transition-smooth);
+  }
+  
+  .stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elegant);
+  }
+  
+  .achievement-card {
+    transition: var(--transition-spring);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .achievement-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-achievement);
+    opacity: 0;
+    transition: var(--transition-smooth);
+  }
+  
+  .achievement-card:hover::before {
+    opacity: 1;
+  }
+  
+  .achievement-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes pulse-glow {
+    from {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+    }
+    to {
+      box-shadow: 0 0 30px hsl(var(--primary) / 0.6);
+    }
+  }
+  
+  .slide-up {
+    animation: slide-up 0.6s ease-out;
+  }
+  
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

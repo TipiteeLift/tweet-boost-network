@@ -3,6 +3,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { EnhancedProfileHeader } from "@/components/EnhancedProfileHeader";
+import { EnhancedStatsGrid } from "@/components/EnhancedStatsGrid";
+import { SkillProgression } from "@/components/SkillProgression";
+import { SocialConnections } from "@/components/SocialConnections";
 import { 
   Trophy, 
   Star, 
@@ -75,95 +79,30 @@ export default function Profile() {
     }
   ];
 
-  const stats = [
-    { label: "Total Points", value: "999,999", change: "+2,500 this week", icon: Star },
-    { label: "Engagement Rate", value: "87.3%", change: "+5.2% this month", icon: TrendingUp },
-    { label: "Communities", value: "5", change: "Recently joined DeFi", icon: Users },
-    { label: "Achievements", value: "24", change: "3 unlocked this month", icon: Trophy }
-  ];
-
   return (
     <div className="min-h-screen bg-background p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
-        {/* Profile Header */}
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center space-x-6">
-                <div className="relative">
-                  <img 
-                    src="/lovable-uploads/5fc8467f-6f6f-4e3d-9854-14000093ad62.png" 
-                    alt="Tipitee avatar"
-                    className="w-20 h-20 rounded-full border-4 border-primary/20"
-                  />
-                  <Badge className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-primary">
-                    Level 5
-                  </Badge>
-                </div>
-                <div className="space-y-2">
-                  <div>
-                    <h1 className="text-3xl font-bold">Tipitee</h1>
-                    <p className="text-muted-foreground text-lg">@about_crypto</p>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <Badge variant="secondary" className="bg-success/10 text-success">
-                      <Calendar className="w-3 h-3 mr-1" />
-                      12-day streak
-                    </Badge>
-                    <Badge variant="secondary" className="bg-primary/10 text-primary">
-                      <Trophy className="w-3 h-3 mr-1" />
-                      Top 1% User
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-              <div className="flex space-x-2">
-                <Button variant="outline" size="sm">
-                  <Share className="w-4 h-4 mr-2" />
-                  Share Profile
-                </Button>
-                <Button size="sm">
-                  <Edit className="w-4 h-4 mr-2" />
-                  Edit Profile
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="max-w-5xl mx-auto space-y-8">
+        {/* Enhanced Profile Header */}
+        <EnhancedProfileHeader />
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, index) => (
-            <Card key={index} className="relative overflow-hidden">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-2xl font-bold">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground">{stat.label}</div>
-                    <div className="text-xs text-success font-medium">{stat.change}</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-primary/10">
-                    <stat.icon className="w-5 h-5 text-primary" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        {/* Enhanced Stats Grid */}
+        <EnhancedStatsGrid />
 
         {/* Profile Tabs */}
         <Tabs defaultValue="achievements" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="achievements">Achievements</TabsTrigger>
-            <TabsTrigger value="activity">Recent Activity</TabsTrigger>
+            <TabsTrigger value="activity">Activity</TabsTrigger>
+            <TabsTrigger value="skills">Skills</TabsTrigger>
+            <TabsTrigger value="connections">Network</TabsTrigger>
             <TabsTrigger value="communities">Communities</TabsTrigger>
           </TabsList>
 
           <TabsContent value="achievements" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {achievements.map((achievement) => (
-                <Card key={achievement.id} className="relative overflow-hidden border-2 border-primary/20">
-                  <div className="absolute top-2 right-2">
+                <Card key={achievement.id} className="achievement-card border-2 border-primary/20">
+                  <div className="absolute top-2 right-2 z-10">
                     <Badge 
                       variant="secondary"
                       className={
@@ -175,7 +114,7 @@ export default function Profile() {
                       {achievement.rarity}
                     </Badge>
                   </div>
-                  <CardContent className="p-6">
+                  <CardContent className="p-6 relative z-10">
                     <div className="text-center space-y-3">
                       <div className="text-4xl">{achievement.icon}</div>
                       <div>
@@ -198,7 +137,7 @@ export default function Profile() {
           <TabsContent value="activity" className="space-y-4">
             <div className="space-y-3">
               {recentActivity.map((activity, index) => (
-                <Card key={index}>
+                <Card key={index} className="hover:bg-muted/50 transition-colors duration-200">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
@@ -226,6 +165,14 @@ export default function Profile() {
                 </Card>
               ))}
             </div>
+          </TabsContent>
+
+          <TabsContent value="skills" className="space-y-6">
+            <SkillProgression />
+          </TabsContent>
+
+          <TabsContent value="connections" className="space-y-6">
+            <SocialConnections />
           </TabsContent>
 
           <TabsContent value="communities" className="space-y-4">
