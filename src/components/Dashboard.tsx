@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Share, MessageCircle } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Heart, Share, MessageCircle, BarChart3, Trophy, Activity, Users, TrendingUp, Star } from "lucide-react";
 
 interface Tweet {
   id: string;
@@ -76,6 +77,79 @@ export const Dashboard = ({ user }: DashboardProps) => {
     }
   };
 
+  const mockAchievements = [
+    {
+      id: "engagement-master",
+      title: "Engagement Master",
+      description: "Reach 10,000 total engagements",
+      progress: 8750,
+      max: 10000,
+      completed: false,
+      badge: "Early Adopter"
+    },
+    {
+      id: "streak-30",
+      title: "30-Day Streak",
+      description: "Maintain activity for 30 consecutive days",
+      progress: 12,
+      max: 30,
+      completed: false,
+      badge: "Top Engager"
+    },
+    {
+      id: "community-leader",
+      title: "Community Leader",
+      description: "Reach 1,000 followers",
+      progress: 1000,
+      max: 1000,
+      completed: true,
+      badge: "Community Builder"
+    }
+  ];
+
+  const mockActivity = [
+    {
+      id: "1",
+      action: "Liked a tweet from @cryptodev about InfoFi protocols",
+      timestamp: "1/22/2024, 11:30:00 AM",
+      points: 1
+    },
+    {
+      id: "2", 
+      action: "Earned the \"Community Leader\" badge",
+      timestamp: "1/21/2024, 4:45:00 PM",
+      points: 100
+    },
+    {
+      id: "3",
+      action: "Joined the DeFi Innovators community",
+      timestamp: "1/20/2024, 10:15:00 AM",
+      points: 5
+    },
+    {
+      id: "4",
+      action: "Posted a tweet about InfoFi that received 847 engagements",
+      timestamp: "1/19/2024, 3:30:00 PM",
+      points: 10
+    },
+    {
+      id: "5",
+      action: "Commented on a trending discussion in the Airdrops community",
+      timestamp: "1/18/2024, 12:20:00 PM",
+      points: 2
+    }
+  ];
+
+  const weeklyData = [
+    { day: "Dec 16", value: 15 },
+    { day: "Dec 17", value: 23 },
+    { day: "Dec 18", value: 18 },
+    { day: "Dec 19", value: 32 },
+    { day: "Dec 20", value: 28 },
+    { day: "Dec 21", value: 41 },
+    { day: "Dec 22", value: 35 }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6">
@@ -128,133 +202,338 @@ export const Dashboard = ({ user }: DashboardProps) => {
           </div>
 
           {/* Main Content */}
-          <div className="lg:col-span-2">
-            <div className="space-y-6">
-              <div>
-                <h1 className="text-2xl font-bold mb-2">Community Feed</h1>
-                <p className="text-muted-foreground">Engage with tweets to earn points and grow together</p>
-              </div>
+          <div className="lg:col-span-3">
+            <Tabs defaultValue="overview" className="space-y-6">
+              <TabsList className="grid w-full grid-cols-4">
+                <TabsTrigger value="overview" className="flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4" />
+                  Overview
+                </TabsTrigger>
+                <TabsTrigger value="achievements" className="flex items-center gap-2">
+                  <Trophy className="w-4 h-4" />
+                  Achievements
+                </TabsTrigger>
+                <TabsTrigger value="activity" className="flex items-center gap-2">
+                  <Activity className="w-4 h-4" />
+                  Activity
+                </TabsTrigger>
+                <TabsTrigger value="analytics" className="flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4" />
+                  Analytics
+                </TabsTrigger>
+              </TabsList>
 
-              <div className="space-y-4">
-                {mockTweets.map((tweet) => {
-                  const tweetInteractions = interactions[tweet.id] || { liked: false, commented: false, shared: false };
-                  
-                  return (
-                    <Card key={tweet.id} className="hover:shadow-card transition-shadow">
-                      <CardHeader className="pb-3">
-                        <div className="flex items-start justify-between">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-primary-glow flex items-center justify-center text-white font-semibold text-sm">
-                              {tweet.author.split(' ').map(n => n[0]).join('')}
-                            </div>
+              <TabsContent value="overview" className="space-y-6">
+                {/* Quick Stats */}
+                <div>
+                  <h2 className="text-xl font-bold mb-4">Quick Stats</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center space-x-2">
+                          <MessageCircle className="w-5 h-5 text-primary" />
+                          <span className="text-sm text-muted-foreground">Tweets Submitted</span>
+                        </div>
+                        <div className="text-2xl font-bold mt-2">23</div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center space-x-2">
+                          <Users className="w-5 h-5 text-primary" />
+                          <span className="text-sm text-muted-foreground">Communities</span>
+                        </div>
+                        <div className="text-2xl font-bold mt-2">5</div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center space-x-2">
+                          <Star className="w-5 h-5 text-primary" />
+                          <span className="text-sm text-muted-foreground">Longest Streak</span>
+                        </div>
+                        <div className="text-2xl font-bold mt-2">15 days</div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+
+                {/* Analytics Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="text-2xl font-bold">487</div>
+                          <div className="text-sm text-muted-foreground">Total Engagements</div>
+                        </div>
+                        <Star className="w-5 h-5 text-primary" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="text-2xl font-bold">127</div>
+                          <div className="text-sm text-muted-foreground">This Week</div>
+                        </div>
+                        <TrendingUp className="w-5 h-5 text-success" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="text-2xl font-bold">5</div>
+                          <div className="text-sm text-muted-foreground">Communities</div>
+                        </div>
+                        <Users className="w-5 h-5 text-primary" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="text-2xl font-bold">12</div>
+                          <div className="text-sm text-muted-foreground">Day Streak</div>
+                        </div>
+                        <Star className="w-5 h-5 text-primary" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Weekly Activity */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center justify-between">
+                      Weekly Activity
+                      <span className="text-sm font-normal text-success">+12.5%</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-between items-end h-32 space-x-2">
+                      {weeklyData.map((day, index) => (
+                        <div key={index} className="flex flex-col items-center flex-1">
+                          <div 
+                            className="bg-primary rounded-t w-full"
+                            style={{ height: `${(day.value / 50) * 100}%`, minHeight: '8px' }}
+                          />
+                          <div className="text-xs text-muted-foreground mt-2 text-center">
+                            <div className="font-medium">{day.value}</div>
+                            <div>{day.day.split(' ')[1]}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Engagement Breakdown */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Engagement Breakdown</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="flex items-center space-x-3">
+                        <Heart className="w-5 h-5 text-pink-500" />
+                        <div>
+                          <div className="text-lg font-bold">245</div>
+                          <div className="text-sm text-muted-foreground">Likes Given</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <Share className="w-5 h-5 text-green-500" />
+                        <div>
+                          <div className="text-lg font-bold">132</div>
+                          <div className="text-sm text-muted-foreground">Retweets</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <MessageCircle className="w-5 h-5 text-blue-500" />
+                        <div>
+                          <div className="text-lg font-bold">110</div>
+                          <div className="text-sm text-muted-foreground">Comments</div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="achievements" className="space-y-6">
+                {/* Featured Badges */}
+                <div>
+                  <h2 className="text-xl font-bold mb-4">Featured Badges</h2>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="bg-blue-500/10 text-blue-500 px-3 py-1">
+                      Early Adopter
+                    </Badge>
+                    <Badge variant="secondary" className="bg-purple-500/10 text-purple-500 px-3 py-1">
+                      Top Engager
+                    </Badge>
+                    <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500 px-3 py-1">
+                      Community Builder
+                    </Badge>
+                  </div>
+                </div>
+
+                {/* All Achievements */}
+                <div>
+                  <h2 className="text-xl font-bold mb-4">All Achievements</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {mockAchievements.map((achievement) => (
+                      <Card key={achievement.id} className={achievement.completed ? "border-success" : ""}>
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between mb-3">
                             <div>
-                              <div className="font-semibold text-sm">{tweet.author}</div>
-                              <div className="text-xs text-muted-foreground">{tweet.handle} • {tweet.timestamp}</div>
+                              <h3 className="font-semibold">{achievement.title}</h3>
+                              <p className="text-sm text-muted-foreground">{achievement.description}</p>
+                            </div>
+                            {achievement.completed && <Trophy className="w-5 h-5 text-yellow-500" />}
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex justify-between text-sm">
+                              <span>Progress</span>
+                              <span>{achievement.progress}/{achievement.max}</span>
+                            </div>
+                            <div className="w-full bg-muted rounded-full h-2">
+                              <div 
+                                className={`h-2 rounded-full transition-all duration-500 ${
+                                  achievement.completed ? 'bg-success' : 'bg-primary'
+                                }`}
+                                style={{ width: `${(achievement.progress / achievement.max) * 100}%` }}
+                              />
                             </div>
                           </div>
-                          <Badge variant="outline" className="text-xs">
-                            {tweet.community}
-                          </Badge>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="activity" className="space-y-6">
+                <div>
+                  <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
+                  <div className="space-y-3">
+                    {mockActivity.map((activity) => (
+                      <Card key={activity.id}>
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm">{activity.action}</p>
+                              <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
+                            </div>
+                            <Badge variant="secondary" className="bg-success/10 text-success">
+                              +{activity.points}
+                            </Badge>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Quick Stats at bottom */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Quick Stats</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center space-x-2">
+                          <MessageCircle className="w-5 h-5 text-primary" />
+                          <span className="text-sm text-muted-foreground">Tweets Submitted</span>
                         </div>
-                      </CardHeader>
-                      
-                      <CardContent className="pt-0">
-                        <p className="text-sm mb-4 leading-relaxed">{tweet.content}</p>
-                        
-                        <div className="flex items-center space-x-6">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleInteraction(tweet.id, 'like')}
-                            className={`text-xs ${tweetInteractions.liked ? 'text-pink-500' : 'text-muted-foreground'}`}
-                            disabled={tweetInteractions.liked}
-                          >
-                            <Heart className="w-4 h-4 mr-1" />
-                            {tweet.likes} (+1pt)
-                          </Button>
-                          
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleInteraction(tweet.id, 'comment')}
-                            className={`text-xs ${tweetInteractions.commented ? 'text-blue-500' : 'text-muted-foreground'}`}
-                            disabled={tweetInteractions.commented}
-                          >
-                            <MessageCircle className="w-4 h-4 mr-1" />
-                            {tweet.comments} (+2pts)
-                          </Button>
-                          
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleInteraction(tweet.id, 'share')}
-                            className={`text-xs ${tweetInteractions.shared ? 'text-green-500' : 'text-muted-foreground'}`}
-                            disabled={tweetInteractions.shared}
-                          >
-                            <Share className="w-4 h-4 mr-1" />
-                            {tweet.shares} (+3pts)
-                          </Button>
+                        <div className="text-2xl font-bold mt-2">23</div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center space-x-2">
+                          <Users className="w-5 h-5 text-primary" />
+                          <span className="text-sm text-muted-foreground">Communities</span>
+                        </div>
+                        <div className="text-2xl font-bold mt-2">5</div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="flex items-center space-x-2">
+                          <Star className="w-5 h-5 text-primary" />
+                          <span className="text-sm text-muted-foreground">Longest Streak</span>
+                        </div>
+                        <div className="text-2xl font-bold mt-2">15 days</div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="analytics" className="space-y-6">
+                <div>
+                  <h2 className="text-xl font-bold mb-4">Analytics Dashboard</h2>
+                  
+                  {/* Cross-Platform Analytics */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <Card>
+                      <CardContent className="p-6">
+                        <div>
+                          <div className="text-2xl font-bold">15.6K</div>
+                          <div className="text-sm text-muted-foreground">Total Reach</div>
+                          <div className="text-xs text-success">+12.5%</div>
                         </div>
                       </CardContent>
                     </Card>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column - Analytics */}
-          <div className="lg:col-span-1">
-            <div className="space-y-4">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Today's Progress</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Points Earned</span>
-                      <span className="font-semibold text-success">+{userPoints - user.points}</span>  
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Interactions</span>
-                      <span className="font-semibold">
-                        {Object.values(interactions).reduce((acc, curr) => 
-                          acc + (curr.liked ? 1 : 0) + (curr.commented ? 1 : 0) + (curr.shared ? 1 : 0), 0
-                        )}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Rank</span>
-                      <span className="font-semibold text-primary">#47</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Leaderboard</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {[
-                      { name: "Elena V.", points: 2100 },
-                      { name: "Ryan T.", points: 1920 },
-                      { name: "David P.", points: 1650 }
-                    ].map((leader, index) => (
-                      <div key={index} className="flex items-center justify-between text-sm">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-muted-foreground">#{index + 1}</span>
-                          <span>{leader.name}</span>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div>
+                          <div className="text-2xl font-bold">2.4K</div>
+                          <div className="text-sm text-muted-foreground">Total Engagement</div>
+                          <div className="text-xs text-success">+8.3%</div>
                         </div>
-                        <span className="font-semibold text-success">{leader.points}</span>
-                      </div>
-                    ))}
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div>
+                          <div className="text-2xl font-bold">87.3%</div>
+                          <div className="text-sm text-muted-foreground">Avg Engagement Rate</div>
+                          <div className="text-xs text-success">+5.7%</div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+
+                  {/* Platform Performance */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Platform Performance</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 rounded bg-blue-500/10 flex items-center justify-center">
+                              <MessageCircle className="w-4 h-4 text-blue-500" />
+                            </div>
+                            <span className="font-medium">Twitter</span>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-semibold">1.2K engagements</div>
+                            <div className="text-xs text-success">+15.3%</div>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </div>
