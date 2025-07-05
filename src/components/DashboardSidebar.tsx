@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { NavLink, useLocation } from "react-router-dom";
 import { 
   Home, 
   Users, 
@@ -17,10 +18,12 @@ interface DashboardSidebarProps {
 }
 
 export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProps) => {
+  const location = useLocation();
+  
   const navigationItems = [
-    { icon: Home, label: "Dashboard", active: true },
-    { icon: Users, label: "Communities", active: false },
-    { icon: User, label: "Profile", active: false },
+    { icon: Home, label: "Dashboard", path: "/" },
+    { icon: Users, label: "Communities", path: "/communities" },
+    { icon: User, label: "Profile", path: "/profile" },
   ];
 
   const engagementProgress = Math.min((12 / 15) * 100, 100);
@@ -31,11 +34,13 @@ export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProp
       {/* User Info */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-            <span className="text-sm font-bold text-primary-foreground">AC</span>
-          </div>
+          <img 
+            src="/lovable-uploads/5fc8467f-6f6f-4e3d-9854-14000093ad62.png" 
+            alt="Tipitee avatar"
+            className="w-10 h-10 rounded-full"
+          />
           <div>
-            <div className="font-semibold text-sm">About Crypto</div>
+            <div className="font-semibold text-sm">Tipitee</div>
             <div className="text-xs text-muted-foreground">@about_crypto</div>
           </div>
         </div>
@@ -56,15 +61,16 @@ export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProp
       <div className="flex-1 p-4">
         <nav className="space-y-2">
           {navigationItems.map((item, index) => (
-            <Button
-              key={index}
-              variant={item.active ? "default" : "ghost"}
-              className="w-full justify-start"
-              size="sm"
-            >
-              <item.icon className="w-4 h-4 mr-2" />
-              {item.label}
-            </Button>
+            <NavLink key={index} to={item.path}>
+              <Button
+                variant={location.pathname === item.path ? "default" : "ghost"}
+                className="w-full justify-start"
+                size="sm"
+              >
+                <item.icon className="w-4 h-4 mr-2" />
+                {item.label}
+              </Button>
+            </NavLink>
           ))}
         </nav>
 
