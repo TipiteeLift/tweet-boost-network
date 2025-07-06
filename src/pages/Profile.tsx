@@ -7,6 +7,7 @@ import { EnhancedProfileHeader } from "@/components/EnhancedProfileHeader";
 import { EnhancedStatsGrid } from "@/components/EnhancedStatsGrid";
 import { SkillProgression } from "@/components/SkillProgression";
 import { SocialConnections } from "@/components/SocialConnections";
+import { Link } from "react-router-dom";
 import { 
   Trophy, 
   Star, 
@@ -18,7 +19,9 @@ import {
   Share,
   Award,
   Target,
-  Zap
+  Zap,
+  ArrowLeft,
+  Home
 } from "lucide-react";
 
 export default function Profile() {
@@ -82,6 +85,30 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-5xl mx-auto space-y-8">
+        {/* Navigation Header */}
+        <div className="flex items-center justify-between py-4">
+          <div className="flex items-center space-x-4">
+            <Link to="/">
+              <Button variant="ghost" size="sm" className="hover:bg-muted">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Dashboard
+              </Button>
+            </Link>
+            <Link to="/communities">
+              <Button variant="ghost" size="sm" className="hover:bg-muted">
+                <Users className="w-4 h-4 mr-2" />
+                Communities
+              </Button>
+            </Link>
+          </div>
+          <Link to="/">
+            <Button variant="outline" size="sm">
+              <Home className="w-4 h-4 mr-2" />
+              Home
+            </Button>
+          </Link>
+        </div>
+
         {/* Enhanced Profile Header */}
         <EnhancedProfileHeader />
 
