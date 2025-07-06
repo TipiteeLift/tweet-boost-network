@@ -3,11 +3,14 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { NotificationCenter } from "./NotificationCenter";
 import { LiveFeedModal } from "./LiveFeedModal";
+import { AuthButton } from "./AuthButton";
 import { Bell, Search, Calendar, Activity } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 export const DashboardHeader = () => {
   const [isLiveFeedOpen, setIsLiveFeedOpen] = useState(false);
+  const { todayStats } = useAuth();
   return (
     <div className="bg-card border-b border-border p-4">
       <div className="flex items-center justify-between">
@@ -34,10 +37,12 @@ export const DashboardHeader = () => {
 
         {/* Right Actions */}
         <div className="flex items-center space-x-4">
-          <Badge variant="secondary" className="bg-warning/10 text-warning">
-            <Calendar className="w-3 h-3 mr-1" />
-            12 day streak
-          </Badge>
+          {todayStats && (
+            <Badge variant="secondary" className="bg-warning/10 text-warning">
+              <Calendar className="w-3 h-3 mr-1" />
+              {todayStats.likes + todayStats.comments + todayStats.shares} interactions today
+            </Badge>
+          )}
           
           <NotificationCenter />
           
@@ -54,6 +59,8 @@ export const DashboardHeader = () => {
             <Activity className="w-4 h-4 mr-2" />
             Live Feed
           </Button>
+          
+          <AuthButton />
         </div>
       </div>
       

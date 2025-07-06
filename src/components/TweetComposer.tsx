@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Image, Hash, Smile, Calendar, X } from "lucide-react";
+import { Image, Hash, Smile, Calendar, X, Loader2 } from "lucide-react";
+import { useTweets } from "@/hooks/useTweets";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 interface TweetComposerProps {
   isOpen: boolean;
@@ -16,6 +19,11 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
   const [content, setContent] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCommunity, setSelectedCommunity] = useState("InfoFi");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const { submitTweet } = useTweets();
+  const { refreshProfile } = useAuth();
+  const { toast } = useToast();
 
   const maxChars = 280;
   const remainingChars = maxChars - content.length;
@@ -33,30 +41,38 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
   };
 
   const handleSubmit = async () => {
-    if (canSubmit) {
-      try {
-        // Simulate API call
-        const tweetData = {
-          content: content + ' ' + selectedTags.join(' '),
-          community: selectedCommunity,
-          tags: selectedTags,
-          timestamp: new Date().toISOString()
-        };
-        
-        // Here you would submit to your backend/API
-        console.log("Submitting tweet:", tweetData);
-        
-        // Show success message
-        alert("Tweet submitted successfully! You earned 10 points.");
-        
-        onClose();
-        setContent("");
-        setSelectedTags([]);
-        setSelectedCommunity("InfoFi");
-      } catch (error) {
-        console.error("Error submitting tweet:", error);
-        alert("Failed to submit tweet. Please try again.");
-      }
+    if (!canSubmit || isSubmitting) return;
+    
+    setIsSubmitting(true);
+    try {
+      const result = await submitTweet(
+        content + ' ' + selectedTags.join(' '), 
+        selectedCommunity, 
+        selectedTags
+      );
+      
+      toast({
+        title: "Success!",
+        description: result.message,
+      });
+      
+      // Refresh user profile to update points
+      refreshProfile();
+      
+      // Reset form and close
+      onClose();
+      setContent("");
+      setSelectedTags([]);
+      setSelectedCommunity("InfoFi");
+      
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -172,10 +188,17 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
           {/* Submit Button */}
           <Button 
             className="w-full" 
-            disabled={!canSubmit}
+            disabled={!canSubmit || isSubmitting}
             onClick={handleSubmit}
           >
-            {canSubmit ? 'Submit Tweet' : 'Need More Points'}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              canSubmit ? 'Submit Tweet' : 'Need More Points'
+            )}
           </Button>
         </div>
       </DialogContent>

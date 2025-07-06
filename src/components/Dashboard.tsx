@@ -6,35 +6,45 @@ import { TweetFeed } from "./TweetFeed";
 import { AchievementShowcase } from "./AchievementShowcase";
 import { WeeklyEngagementChart } from "./WeeklyEngagementChart";
 import { StatisticsGrid } from "./StatisticsGrid";
+import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 interface DashboardProps {
   user: { name: string; points: number; level: string };
 }
 
-export const Dashboard = ({ user }: DashboardProps) => {
-  const [userPoints, setUserPoints] = useState(user.points);
-  const [interactions, setInteractions] = useState<Record<string, { liked: boolean; commented: boolean; shared: boolean }>>({});
+export const Dashboard = ({ user: legacyUser }: DashboardProps) => {
+  const { user, profile, loading } = useAuth();
 
-  const handleInteraction = (tweetId: string, type: 'like' | 'comment' | 'share') => {
-    const pointsMap = { like: 1, comment: 2, share: 3 };
-    const currentInteractions = interactions[tweetId] || { liked: false, commented: false, shared: false };
-    
-    if (!currentInteractions[type === 'like' ? 'liked' : type === 'comment' ? 'commented' : 'shared']) {
-      setUserPoints(prev => prev + pointsMap[type]);
-      setInteractions(prev => ({
-        ...prev,
-        [tweetId]: {
-          ...currentInteractions,
-          [type === 'like' ? 'liked' : type === 'comment' ? 'commented' : 'shared']: true
-        }
-      }));
-    }
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex items-center space-x-2">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <span className="text-lg">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
-  return (
+  if (!user || !profile) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-bold">Welcome to LiftX</h1>
+          <p className="text-muted-foreground">Please sign in to access your dashboard</p>
+          <Button onClick={() => window.location.href = '/'}>
+            Go to Home
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
     <div className="min-h-screen bg-background flex">
       {/* Left Sidebar */}
-      <DashboardSidebar userPoints={userPoints} userLevel={user.level} />
+      <DashboardSidebar userPoints={profile.points} userLevel={`Level ${profile.level}`} />
       
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
@@ -43,33 +53,17 @@ export const Dashboard = ({ user }: DashboardProps) => {
         
         {/* Content Layout */}
         <div className="flex-1 flex flex-col">
-          {/* Statistics Grid */}
-          <div className="p-6">
-            <StatisticsGrid />
-          </div>
+          {/* Tweet Feed with all content */}
+          <TweetFeed />
           
-          <div className="flex-1 flex">
-            {/* Main Content */}
-            <div className="flex-1 flex flex-col">
-              {/* Weekly Chart */}
-              <div className="p-4">
-                <WeeklyEngagementChart />
-              </div>
-              
-              {/* Tweet Feed */}
-              <TweetFeed onInteraction={handleInteraction} interactions={interactions} />
-              
-              {/* Achievement Showcase */}
-              <div className="p-4 border-t border-border">
-                <AchievementShowcase />
-              </div>
-            </div>
-            
-            {/* Right Insights Sidebar */}
-            <InsightsSidebar />
+          {/* Achievement Showcase */}
+          <div className="p-4 border-t border-border">
+            <AchievementShowcase />
           </div>
         </div>
       </div>
+      
+      {/* Right Insights Sidebar */}
+      <InsightsSidebar />
     </div>
-  );
 };
