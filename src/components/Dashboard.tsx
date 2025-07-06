@@ -4,6 +4,8 @@ import { DashboardHeader } from "./DashboardHeader";
 import { InsightsSidebar } from "./InsightsSidebar";
 import { TweetFeed } from "./TweetFeed";
 import { AchievementShowcase } from "./AchievementShowcase";
+import { WeeklyEngagementChart } from "./WeeklyEngagementChart";
+import { StatisticsGrid } from "./StatisticsGrid";
 
 interface DashboardProps {
   user: { name: string; points: number; level: string };
@@ -40,19 +42,32 @@ export const Dashboard = ({ user }: DashboardProps) => {
         <DashboardHeader />
         
         {/* Content Layout */}
-        <div className="flex-1 flex">
-          {/* Tweet Feed */}
-          <div className="flex-1 flex flex-col">
-            <TweetFeed onInteraction={handleInteraction} interactions={interactions} />
-            
-            {/* Achievement Showcase */}
-            <div className="p-4 border-t border-border">
-              <AchievementShowcase />
-            </div>
+        <div className="flex-1 flex flex-col">
+          {/* Statistics Grid */}
+          <div className="p-6">
+            <StatisticsGrid />
           </div>
           
-          {/* Right Insights Sidebar */}
-          <InsightsSidebar />
+          <div className="flex-1 flex">
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col">
+              {/* Weekly Chart */}
+              <div className="p-4">
+                <WeeklyEngagementChart />
+              </div>
+              
+              {/* Tweet Feed */}
+              <TweetFeed onInteraction={handleInteraction} interactions={interactions} />
+              
+              {/* Achievement Showcase */}
+              <div className="p-4 border-t border-border">
+                <AchievementShowcase />
+              </div>
+            </div>
+            
+            {/* Right Insights Sidebar */}
+            <InsightsSidebar />
+          </div>
         </div>
       </div>
     </div>
