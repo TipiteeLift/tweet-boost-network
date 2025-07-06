@@ -73,6 +73,7 @@ const mockTweets: Tweet[] = [
 
 export const TweetFeed = ({ onInteraction, interactions }: TweetFeedProps) => {
   const [activeFilter, setActiveFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <div className="flex-1 p-4 space-y-6">
@@ -90,6 +91,8 @@ export const TweetFeed = ({ onInteraction, interactions }: TweetFeedProps) => {
 
       {/* Filters */}
       <CommunityFilters 
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
         onFilterChange={setActiveFilter} 
         activeFilter={activeFilter} 
       />

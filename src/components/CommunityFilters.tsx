@@ -1,96 +1,55 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ChevronDown, Filter } from "lucide-react";
-
-interface FilterOption {
-  id: string;
-  label: string;
-  count?: number;
-  premium?: boolean;
-  active?: boolean;
-}
+import { Input } from "@/components/ui/input";
+import { Search, Filter, TrendingUp, Users, Star } from "lucide-react";
 
 interface CommunityFiltersProps {
-  onFilterChange: (filterId: string) => void;
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
   activeFilter: string;
+  onFilterChange: (filter: string) => void;
 }
 
-export const CommunityFilters = ({ onFilterChange, activeFilter }: CommunityFiltersProps) => {
-  const [showAdvanced, setShowAdvanced] = useState(false);
-
-  const mainFilters: FilterOption[] = [
-    { id: "all", label: "All", count: 142, active: true },
-    { id: "infofi", label: "#InfoFi", count: 45 },
-    { id: "airdrops", label: "#Airdrops", count: 32 },
-    { id: "defi", label: "#DeFi", count: 28 },
-    { id: "nfts", label: "#NFTs", count: 15 },
-    { id: "gaming", label: "#Gaming", count: 22 }
-  ];
-
-  const advancedFilters: FilterOption[] = [
-    { id: "hot", label: "🔥 Hot", premium: true },
-    { id: "trending", label: "📈 Trending", premium: true },
-    { id: "high-reward", label: "💎 High Reward", premium: true }
+export const CommunityFilters = ({
+  searchTerm,
+  onSearchChange,
+  activeFilter,
+  onFilterChange,
+}: CommunityFiltersProps) => {
+  const filters = [
+    { key: "all", label: "All Communities", icon: Filter },
+    { key: "joined", label: "Joined", icon: Users },
+    { key: "trending", label: "Trending", icon: TrendingUp },
+    { key: "featured", label: "Featured", icon: Star },
   ];
 
   return (
     <div className="space-y-4">
-      {/* Main Filters */}
-      <div className="flex items-center space-x-2 flex-wrap gap-2">
-        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <Filter className="w-4 h-4" />
-          <span>Filter:</span>
-        </div>
-        
-        {mainFilters.map((filter) => (
-          <Button
-            key={filter.id}
-            variant={activeFilter === filter.id ? "default" : "outline"}
-            size="sm"
-            onClick={() => onFilterChange(filter.id)}
-            className="h-8"
-          >
-            {filter.label}
-            {filter.count && (
-              <Badge variant="secondary" className="ml-2 text-xs">
-                {filter.count}
-              </Badge>
-            )}
-          </Button>
-        ))}
-
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          className="h-8"
-        >
-          Advanced
-          <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${showAdvanced ? 'rotate-180' : ''}`} />
-        </Button>
+      {/* Search Bar */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+        <Input
+          placeholder="Search communities..."
+          value={searchTerm}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="pl-10"
+        />
       </div>
 
-      {/* Advanced Filters */}
-      {showAdvanced && (
-        <div className="flex items-center space-x-2 flex-wrap gap-2 pl-6 border-l-2 border-primary/20">
-          <span className="text-sm text-muted-foreground">Premium:</span>
-          {advancedFilters.map((filter) => (
-            <Button
-              key={filter.id}
-              variant={activeFilter === filter.id ? "default" : "secondary"}
-              size="sm"
-              onClick={() => onFilterChange(filter.id)}
-              className="h-8 bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border-purple-500/30"
-            >
-              {filter.label}
-              <Badge variant="outline" className="ml-2 text-xs border-purple-500/50">
-                PRO
-              </Badge>
-            </Button>
-          ))}
-        </div>
-      )}
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap gap-2">
+        {filters.map((filter) => (
+          <Button
+            key={filter.key}
+            variant={activeFilter === filter.key ? "default" : "outline"}
+            size="sm"
+            onClick={() => onFilterChange(filter.key)}
+            className="animate-fade-in"
+          >
+            <filter.icon className="w-4 h-4 mr-2" />
+            {filter.label}
+          </Button>
+        ))}
+      </div>
     </div>
   );
 };
