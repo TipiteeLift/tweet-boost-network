@@ -2,11 +2,15 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
+import { Communities } from "@/components/Communities";
+import { Analytics } from "@/components/Analytics";
 import { Testimonials } from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () => void }) => {
   const [user, setUser] = useState<{ name: string; avatar: string; points: number } | null>(null);
+  const [activeTab, setActiveTab] = useState("features");
 
   const handleSignIn = () => {
     // Mock sign-in - in real app this would integrate with X API
@@ -26,11 +30,34 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
 
   return (
     <div className="min-h-screen bg-background">
-      <Header onSignIn={handleSignIn} user={user} />
+      <Header onSignIn={handleSignIn} user={user} activeTab={activeTab} onTabChange={setActiveTab} />
       
       <main>
         <Hero onGetStarted={handleGetStarted} />
-        <Features />
+        
+        {/* Tabbed Content */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <div className="sticky top-16 z-40 bg-background/95 backdrop-blur border-b">
+            <div className="container">
+              <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 my-4">
+                <TabsTrigger value="features">Features</TabsTrigger>
+                <TabsTrigger value="communities">Communities</TabsTrigger>
+                <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              </TabsList>
+            </div>
+          </div>
+          
+          <TabsContent value="features" className="mt-0">
+            <Features />
+          </TabsContent>
+          <TabsContent value="communities" className="mt-0">
+            <Communities />
+          </TabsContent>
+          <TabsContent value="analytics" className="mt-0">
+            <Analytics />
+          </TabsContent>
+        </Tabs>
+        
         <Testimonials />
         
         {/* CTA Section */}

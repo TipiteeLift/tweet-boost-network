@@ -4,9 +4,11 @@ import liftxLogo from "@/assets/liftx-logo.png";
 interface HeaderProps {
   onSignIn?: () => void;
   user?: { name: string; avatar: string; points: number } | null;
+  activeTab?: string;
+  onTabChange?: (tab: string) => void;
 }
 
-export const Header = ({ onSignIn, user }: HeaderProps) => {
+export const Header = ({ onSignIn, user, activeTab, onTabChange }: HeaderProps) => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -18,15 +20,30 @@ export const Header = ({ onSignIn, user }: HeaderProps) => {
         </div>
         
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+          <button 
+            onClick={() => onTabChange?.("features")}
+            className={`text-sm font-medium transition-colors ${
+              activeTab === "features" ? "text-primary" : "text-muted-foreground hover:text-primary"
+            }`}
+          >
             Features
-          </a>
-          <a href="#communities" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+          </button>
+          <button 
+            onClick={() => onTabChange?.("communities")}
+            className={`text-sm font-medium transition-colors ${
+              activeTab === "communities" ? "text-primary" : "text-muted-foreground hover:text-primary"
+            }`}
+          >
             Communities
-          </a>
-          <a href="#analytics" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+          </button>
+          <button 
+            onClick={() => onTabChange?.("analytics")}
+            className={`text-sm font-medium transition-colors ${
+              activeTab === "analytics" ? "text-primary" : "text-muted-foreground hover:text-primary"
+            }`}
+          >
             Analytics
-          </a>
+          </button>
         </nav>
 
         <div className="flex items-center space-x-4">
