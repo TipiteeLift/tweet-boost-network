@@ -11,6 +11,7 @@ interface Tweet {
   id: string;
   author: string;
   handle: string;
+  avatar?: string;
   content: string;
   likes: number;
   comments: number;
@@ -32,6 +33,7 @@ const mockTweets: Tweet[] = [
     id: "1",
     author: "Crypto Developer",
     handle: "@cryptodev",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
     content: "Just discovered an amazing InfoFi project that tracks social sentiment in real-time. The future of information finance is here! 🚀 This could revolutionize how we value and monetize social data.",
     likes: 2847,
     comments: 28,
@@ -46,6 +48,7 @@ const mockTweets: Tweet[] = [
     id: "2",
     author: "Airdrop Alpha",
     handle: "@airdropalpha",
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616c668830a?w=100&h=100&fit=crop&crop=face",
     content: "Major DeFi protocol announcing airdrop eligibility snapshot next week! Users with 100+ transactions on their platform are eligible. Don't miss out! 💰",
     likes: 5234,
     comments: 73,
@@ -59,6 +62,7 @@ const mockTweets: Tweet[] = [
     id: "3",
     author: "DeFi Maximalist",
     handle: "@defimaxi",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
     content: "The yield farming opportunities in this market are insane. Just found a 200% APY pool that's actually sustainable. Research is key! 📊",
     likes: 8921,
     comments: 156,
@@ -107,10 +111,18 @@ export const TweetFeed = ({ onInteraction, interactions }: TweetFeedProps) => {
               <CardContent className="p-0">
                 <div className="flex space-x-3">
                   {/* Avatar */}
-                  <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
-                    <span className="text-sm font-semibold">
-                      {tweet.author.split(' ').map(n => n[0]).join('')}
-                    </span>
+                  <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center overflow-hidden">
+                    {tweet.avatar ? (
+                      <img 
+                        src={tweet.avatar} 
+                        alt={`${tweet.author} avatar`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-sm font-semibold">
+                        {tweet.author.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex-1">

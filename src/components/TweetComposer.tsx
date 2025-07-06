@@ -32,13 +32,31 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
     );
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (canSubmit) {
-      // Here you would submit the tweet
-      console.log("Submitting tweet:", { content, selectedTags, selectedCommunity });
-      onClose();
-      setContent("");
-      setSelectedTags([]);
+      try {
+        // Simulate API call
+        const tweetData = {
+          content: content + ' ' + selectedTags.join(' '),
+          community: selectedCommunity,
+          tags: selectedTags,
+          timestamp: new Date().toISOString()
+        };
+        
+        // Here you would submit to your backend/API
+        console.log("Submitting tweet:", tweetData);
+        
+        // Show success message
+        alert("Tweet submitted successfully! You earned 10 points.");
+        
+        onClose();
+        setContent("");
+        setSelectedTags([]);
+        setSelectedCommunity("InfoFi");
+      } catch (error) {
+        console.error("Error submitting tweet:", error);
+        alert("Failed to submit tweet. Please try again.");
+      }
     }
   };
 

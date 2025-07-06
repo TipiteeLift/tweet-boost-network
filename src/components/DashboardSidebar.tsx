@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { TweetComposer } from "./TweetComposer";
+import { SettingsModal } from "./SettingsModal";
 import { NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { 
@@ -22,9 +23,10 @@ interface DashboardSidebarProps {
 export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProps) => {
   const location = useLocation();
   const [isTweetComposerOpen, setIsTweetComposerOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   
   const navigationItems = [
-    { icon: Home, label: "Dashboard", path: "/" },
+    { icon: Home, label: "Dashboard", path: "/dashboard" },
     { icon: Users, label: "Communities", path: "/communities" },
     { icon: User, label: "Profile", path: "/profile" },
   ];
@@ -125,7 +127,12 @@ export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProp
 
       {/* Settings */}
       <div className="p-4 border-t border-border">
-        <Button variant="ghost" className="w-full justify-start" size="sm">
+        <Button 
+          variant="ghost" 
+          className="w-full justify-start" 
+          size="sm"
+          onClick={() => setIsSettingsOpen(true)}
+        >
           <Settings className="w-4 h-4 mr-2" />
           Settings
         </Button>
@@ -135,6 +142,11 @@ export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProp
         isOpen={isTweetComposerOpen}
         onClose={() => setIsTweetComposerOpen(false)}
         userPoints={userPoints}
+      />
+      
+      <SettingsModal 
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
       />
     </div>
   );
