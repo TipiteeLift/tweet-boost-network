@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import liftxLogo from "@/assets/liftx-logo.png";
+import liftxLogo from "/lovable-uploads/229e81d6-4d7e-4e2b-beb1-5b2ba6059af6.png";
 
 interface HeaderProps {
   onSignIn?: () => void;
