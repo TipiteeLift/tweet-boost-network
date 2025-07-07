@@ -1,11 +1,18 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import heroBackground from "@/assets/hero-background.jpg";
 
 interface HeroProps {
-  onGetStarted: () => void;
+  onGetStarted?: () => void;
 }
 
 export const Hero = ({ onGetStarted }: HeroProps) => {
+  const navigate = useNavigate();
+  
+  const handleGetStarted = () => {
+    navigate('/dashboard');
+  };
+
   return (
     <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -29,7 +36,7 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button variant="hero" size="xl" onClick={onGetStarted}>
+          <Button variant="hero" size="xl" onClick={handleGetStarted}>
             Get Started Free
           </Button>
           <Button variant="outline" size="xl">

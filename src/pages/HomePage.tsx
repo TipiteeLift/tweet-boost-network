@@ -31,7 +31,7 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
   };
 
   const handleGetStarted = () => {
-    handleSignIn();
+    navigate('/dashboard');
   };
 
   return (

@@ -49,13 +49,9 @@ export const Header = ({ onSignIn, user, activeTab, onTabChange }: HeaderProps) 
         </nav>
 
         <div className="flex items-center space-x-4">
-          {user ? (
-            <AuthButton />
-          ) : (
-            <Button variant="hero" size="lg" onClick={onSignIn}>
-              Sign in with Google
-            </Button>
-          )}
+          <Button variant="hero" size="lg" onClick={() => window.location.href = '/dashboard'}>
+            Access Dashboard
+          </Button>
         </div>
       </div>
     </header>

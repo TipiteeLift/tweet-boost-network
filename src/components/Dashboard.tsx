@@ -19,41 +19,25 @@ interface DashboardProps {
 
 export const Dashboard = ({ user: legacyUser }: DashboardProps) => {
   const { user, profile, loading } = useAuth();
-  const [showOnboarding, setShowOnboarding] = useState(() => {
-    // Show onboarding if user is new (less than 10 points)
-    return profile?.points === 0;
-  });
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  
+  // Mock user data for development - remove when X auth is implemented
+  const mockProfile = {
+    points: 125,
+    level: 3,
+    display_name: "Demo User",
+    handle: "@demo_user"
+  };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="flex items-center space-x-2">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          <span className="text-lg">Loading...</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user || !profile) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <h1 className="text-2xl font-bold">Welcome to LiftX</h1>
-          <p className="text-muted-foreground">Please sign in to access your dashboard</p>
-          <Button onClick={() => window.location.href = '/'}>
-            Go to Home
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  const currentProfile = profile || mockProfile;
+  const userPoints = currentProfile.points;
+  const userLevel = `Level ${currentProfile.level}`;
 
   return (
     <>
       <div className="min-h-screen bg-background flex">
       {/* Left Sidebar */}
-      <DashboardSidebar userPoints={profile.points} userLevel={`Level ${profile.level}`} />
+      <DashboardSidebar userPoints={userPoints} userLevel={userLevel} />
       
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
