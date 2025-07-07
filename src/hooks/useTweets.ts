@@ -25,16 +25,31 @@ export const useTweets = (community: string = 'all') => {
   const fetchTweets = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.functions.invoke('get-tweets', {
-        body: { community }
+      
+      // Try to get recommendations first, fallback to regular tweets
+      const { data: recommendationsData } = await supabase.functions.invoke('get-recommendations', {
+        body: { 
+          userId: (await supabase.auth.getUser()).data.user?.id,
+          community: community === 'all' ? undefined : community,
+          limit: 20 
+        }
       });
+      
+      if (recommendationsData?.recommendations?.length > 0) {
+        setTweets(recommendationsData.recommendations);
+      } else {
+        // Fallback to regular tweet fetch
+        const { data, error } = await supabase.functions.invoke('get-tweets', {
+          body: { community }
+        });
 
-      if (error) {
-        console.error('Error fetching tweets:', error);
-        return;
+        if (error) {
+          console.error('Error fetching tweets:', error);
+          return;
+        }
+
+        setTweets(data.tweets || []);
       }
-
-      setTweets(data.tweets || []);
     } catch (error) {
       console.error('Error fetching tweets:', error);
     } finally {

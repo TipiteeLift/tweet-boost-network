@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { NotificationCenter } from "./NotificationCenter";
 import { LiveFeedModal } from "./LiveFeedModal";
 import { AuthButton } from "./AuthButton";
+import { FeedbackForm } from "./FeedbackForm";
 import { Bell, Search, Calendar, Activity } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -43,6 +44,8 @@ export const DashboardHeader = () => {
               {todayStats.likes + todayStats.comments + todayStats.shares} interactions today
             </Badge>
           )}
+          
+          <FeedbackForm />
           
           <NotificationCenter />
           

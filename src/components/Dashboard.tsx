@@ -6,6 +6,9 @@ import { TweetFeed } from "./TweetFeed";
 import { AchievementShowcase } from "./AchievementShowcase";
 import { WeeklyEngagementChart } from "./WeeklyEngagementChart";
 import { StatisticsGrid } from "./StatisticsGrid";
+import { LeaderboardWidget } from "./LeaderboardWidget";
+import { ChallengeTracker } from "./ChallengeTracker";
+import { OnboardingFlow } from "./OnboardingFlow";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
@@ -16,6 +19,10 @@ interface DashboardProps {
 
 export const Dashboard = ({ user: legacyUser }: DashboardProps) => {
   const { user, profile, loading } = useAuth();
+  const [showOnboarding, setShowOnboarding] = useState(() => {
+    // Show onboarding if user is new (less than 10 points)
+    return profile?.points === 0;
+  });
 
   if (loading) {
     return (
@@ -42,7 +49,9 @@ export const Dashboard = ({ user: legacyUser }: DashboardProps) => {
     );
   }
 
-    <div className="min-h-screen bg-background flex">
+  return (
+    <>
+      <div className="min-h-screen bg-background flex">
       {/* Left Sidebar */}
       <DashboardSidebar userPoints={profile.points} userLevel={`Level ${profile.level}`} />
       
@@ -64,6 +73,20 @@ export const Dashboard = ({ user: legacyUser }: DashboardProps) => {
       </div>
       
       {/* Right Insights Sidebar */}
-      <InsightsSidebar />
-    </div>
+      <div className="w-80 border-l border-border bg-background overflow-y-auto">
+        <div className="p-4 space-y-6">
+          <LeaderboardWidget compact />
+          <ChallengeTracker />
+          <InsightsSidebar />
+        </div>
+      </div>
+      </div>
+      
+      {/* Onboarding Flow */}
+      <OnboardingFlow 
+        isOpen={showOnboarding} 
+        onClose={() => setShowOnboarding(false)} 
+      />
+    </>
+  );
 };
