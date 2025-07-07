@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
@@ -7,21 +8,26 @@ import { Analytics } from "@/components/Analytics";
 import { Testimonials } from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/hooks/useAuth";
 
 export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () => void }) => {
-  const [user, setUser] = useState<{ name: string; avatar: string; points: number } | null>(null);
   const [activeTab, setActiveTab] = useState("features");
+  const { user, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSignIn = () => {
-    // Mock sign-in - in real app this would integrate with X API
-    setUser({
-      name: "John Doe",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
-      points: 25
-    });
-    setTimeout(() => {
-      onNavigateToDashboard();
-    }, 1000);
+  // Redirect to dashboard if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  const handleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      console.error('Sign in failed:', error);
+    }
   };
 
   const handleGetStarted = () => {

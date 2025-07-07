@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import liftxLogo from "/lovable-uploads/229e81d6-4d7e-4e2b-beb1-5b2ba6059af6.png";
+import { AuthButton } from "./AuthButton";
+import type { User } from '@supabase/supabase-js';
 
 interface HeaderProps {
   onSignIn?: () => void;
-  user?: { name: string; avatar: string; points: number } | null;
+  user?: User | null;
   activeTab?: string;
   onTabChange?: (tab: string) => void;
 }
@@ -48,16 +50,10 @@ export const Header = ({ onSignIn, user, activeTab, onTabChange }: HeaderProps) 
 
         <div className="flex items-center space-x-4">
           {user ? (
-            <div className="flex items-center space-x-3">
-              <div className="text-right">
-                <div className="text-sm font-medium">{user.name}</div>
-                <div className="text-xs text-success font-semibold">{user.points} points</div>
-              </div>
-              <img src={user.avatar} alt="Profile" className="h-8 w-8 rounded-full" />
-            </div>
+            <AuthButton />
           ) : (
             <Button variant="hero" size="lg" onClick={onSignIn}>
-              Sign in with X
+              Sign in with Google
             </Button>
           )}
         </div>
