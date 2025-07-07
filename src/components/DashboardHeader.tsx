@@ -5,6 +5,7 @@ import { NotificationCenter } from "./NotificationCenter";
 import { LiveFeedModal } from "./LiveFeedModal";
 import { AuthButton } from "./AuthButton";
 import { FeedbackForm } from "./FeedbackForm";
+import { AccessibilitySettings } from "./AccessibilitySettings";
 import { Bell, Search, Calendar, Activity } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -46,6 +47,8 @@ export const DashboardHeader = () => {
           )}
           
           <FeedbackForm />
+          
+          <AccessibilitySettings />
           
           <NotificationCenter />
           
