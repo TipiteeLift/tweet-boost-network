@@ -124,13 +124,30 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
     return twitterRegex.test(content);
   };
 
-  // Helper function to extract tweet preview from URL
-  const getTweetPreview = (url: string) => {
+  // Helper function to generate mock tweet content from URL
+  const generateMockTweetContent = (url: string) => {
     const match = url.match(/\/(\w+)\/status\/(\d+)/);
-    if (match) {
-      return `Tweet by @${match[1]}`;
-    }
-    return "Twitter Post";
+    if (!match) return null;
+    
+    const username = match[1];
+    const tweetId = match[2];
+    
+    // Generate mock content based on common crypto tweet patterns
+    const mockContents = [
+      "🚀 Major update coming to the DeFi space! This could be a game changer for the entire ecosystem. What are your thoughts? #DeFi #Crypto",
+      "💡 Just discovered an incredible alpha opportunity that could 10x your portfolio. The fundamentals look absolutely solid! #Alpha #CryptoGems", 
+      "📊 Market analysis shows we're at a critical support level. This could be the perfect entry point for long-term holders. #TechnicalAnalysis",
+      "🔥 Breaking: New partnership announcement that could revolutionize how we think about blockchain technology! #Blockchain #Innovation",
+      "⚡ InfoFi is the future! Real-time data monetization is going to change everything. Early adopters will be rewarded. #InfoFi #Web3"
+    ];
+    
+    // Use tweet ID to consistently pick the same mock content
+    const contentIndex = parseInt(tweetId.slice(-1)) % mockContents.length;
+    return {
+      content: mockContents[contentIndex],
+      originalUrl: url,
+      username: username
+    };
   };
 
   if (loading && page === 1) {
@@ -211,19 +228,31 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
                       {/* Content */}
                       {isUrl ? (
                         <div className="mb-3">
-                          <div className="flex items-center justify-between p-3 border rounded-lg bg-muted/30">
-                            <div className="flex items-center space-x-2">
-                              <ExternalLink className="w-4 h-4 text-primary" />
-                              <span className="text-sm font-medium">{getTweetPreview(tweet.content)}</span>
-                            </div>
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              onClick={() => window.open(tweet.content, '_blank')}
-                            >
-                              View Tweet
-                            </Button>
-                          </div>
+                          {(() => {
+                            const mockTweet = generateMockTweetContent(tweet.content);
+                            return mockTweet ? (
+                              <div className="space-y-3">
+                                <p className="text-sm leading-relaxed">{mockTweet.content}</p>
+                                <div className="flex items-center justify-between p-3 border rounded-lg bg-muted/30">
+                                  <div className="flex items-center space-x-2">
+                                    <ExternalLink className="w-4 h-4 text-primary" />
+                                    <span className="text-xs text-muted-foreground">
+                                      Original tweet from @{mockTweet.username}
+                                    </span>
+                                  </div>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={() => window.open(tweet.content, '_blank')}
+                                  >
+                                    View Original
+                                  </Button>
+                                </div>
+                              </div>
+                            ) : (
+                              <p className="text-sm mb-3 leading-relaxed">{tweet.content}</p>
+                            );
+                          })()}
                         </div>
                       ) : (
                         <p className="text-sm mb-3 leading-relaxed">{tweet.content}</p>
