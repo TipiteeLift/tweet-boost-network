@@ -1,10 +1,11 @@
+
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Image, Hash, Smile, Calendar, X, Loader2 } from "lucide-react";
+import { Link, Hash, X, Loader2, ExternalLink } from "lucide-react";
 import { useTweets } from "@/hooks/useTweets";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
@@ -16,7 +17,7 @@ interface TweetComposerProps {
 }
 
 export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProps) => {
-  const [content, setContent] = useState("");
+  const [tweetUrl, setTweetUrl] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCommunity, setSelectedCommunity] = useState("InfoFi");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,12 +26,15 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
   const { refreshProfile } = useAuth();
   const { toast } = useToast();
 
-  const maxChars = 280;
-  const remainingChars = maxChars - content.length;
-  const canSubmit = content.trim().length > 0 && userPoints >= 10;
+  const canSubmit = tweetUrl.trim().length > 0 && userPoints >= 10 && isValidTwitterUrl(tweetUrl);
 
   const suggestedTags = ["#InfoFi", "#DeFi", "#Web3", "#Crypto", "#Blockchain", "#Alpha"];
   const communities = ["InfoFi", "Airdrops", "DeFi", "NFTs", "Gaming"];
+
+  function isValidTwitterUrl(url: string): boolean {
+    const twitterRegex = /^https?:\/\/(www\.)?(twitter\.com|x\.com)\/\w+\/status\/\d+/;
+    return twitterRegex.test(url);
+  }
 
   const toggleTag = (tag: string) => {
     setSelectedTags(prev => 
@@ -46,7 +50,7 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
     setIsSubmitting(true);
     try {
       const result = await submitTweet(
-        content + ' ' + selectedTags.join(' '), 
+        tweetUrl, 
         selectedCommunity, 
         selectedTags
       );
@@ -61,7 +65,7 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
       
       // Reset form and close
       onClose();
-      setContent("");
+      setTweetUrl("");
       setSelectedTags([]);
       setSelectedCommunity("InfoFi");
       
@@ -81,7 +85,7 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
       <DialogContent className="max-w-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
-            <span>Submit Tweet</span>
+            <span>Submit Tweet Link</span>
             <div className="flex items-center space-x-2">
               <Badge variant="secondary" className="bg-success/10 text-success">
                 {userPoints} points
@@ -106,7 +110,7 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
             </CardContent>
           </Card>
 
-          {/* Tweet Composer */}
+          {/* Tweet Submission */}
           <div className="space-y-3">
             {/* Community Selection */}
             <div>
@@ -125,31 +129,34 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
               </div>
             </div>
 
-            {/* Tweet Content */}
+            {/* Tweet URL Input */}
             <div>
-              <Textarea
-                placeholder="What's happening in crypto?"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                className="min-h-24 resize-none"
-                maxLength={maxChars}
-              />
-              <div className="flex justify-between items-center mt-2">
-                <div className="flex space-x-2">
-                  <Button variant="ghost" size="sm" disabled>
-                    <Image className="w-4 h-4" />
+              <label className="text-sm font-medium">Twitter/X Link</label>
+              <div className="relative mt-2">
+                <Link className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  placeholder="https://x.com/username/status/123456789"
+                  value={tweetUrl}
+                  onChange={(e) => setTweetUrl(e.target.value)}
+                  className="pl-10"
+                />
+                {tweetUrl && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                    onClick={() => window.open(tweetUrl, '_blank')}
+                    disabled={!isValidTwitterUrl(tweetUrl)}
+                  >
+                    <ExternalLink className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" disabled>
-                    <Smile className="w-4 h-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm" disabled>
-                    <Calendar className="w-4 h-4" />
-                  </Button>
-                </div>
-                <span className={`text-sm ${remainingChars < 20 ? 'text-warning' : 'text-muted-foreground'}`}>
-                  {remainingChars}
-                </span>
+                )}
               </div>
+              {tweetUrl && !isValidTwitterUrl(tweetUrl) && (
+                <p className="text-sm text-destructive mt-1">
+                  Please enter a valid Twitter/X link
+                </p>
+              )}
             </div>
 
             {/* Suggested Tags */}
@@ -197,7 +204,7 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
                 Submitting...
               </>
             ) : (
-              canSubmit ? 'Submit Tweet' : 'Need More Points'
+              canSubmit ? 'Submit Tweet Link' : 'Invalid URL or Need More Points'
             )}
           </Button>
         </div>

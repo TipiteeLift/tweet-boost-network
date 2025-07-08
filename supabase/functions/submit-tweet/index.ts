@@ -1,3 +1,4 @@
+
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.3'
 import { corsHeaders } from '../_shared/cors.ts'
 
@@ -39,17 +40,19 @@ Deno.serve(async (req) => {
 
     const { content, community, tags }: TweetRequest = await req.json()
 
-    // Validate input
+    // Validate input - content is now a Twitter URL
     if (!content || !community) {
       return new Response(
-        JSON.stringify({ error: 'Content and community are required' }),
+        JSON.stringify({ error: 'Tweet URL and community are required' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    if (content.length > 280) {
+    // Validate Twitter URL format
+    const twitterRegex = /^https?:\/\/(www\.)?(twitter\.com|x\.com)\/\w+\/status\/\d+/;
+    if (!twitterRegex.test(content)) {
       return new Response(
-        JSON.stringify({ error: 'Tweet content must be 280 characters or less' }),
+        JSON.stringify({ error: 'Please provide a valid Twitter/X URL' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
@@ -64,6 +67,20 @@ Deno.serve(async (req) => {
     if (profileError || !profile || profile.points < 10) {
       return new Response(
         JSON.stringify({ error: 'Insufficient points. 10 points required to submit tweet.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Check if this tweet URL has already been submitted
+    const { data: existingTweet, error: checkError } = await supabaseClient
+      .from('tweets')
+      .select('id')
+      .eq('content', content)
+      .single()
+
+    if (existingTweet) {
+      return new Response(
+        JSON.stringify({ error: 'This tweet has already been submitted' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
@@ -102,7 +119,7 @@ Deno.serve(async (req) => {
       JSON.stringify({ 
         success: true, 
         tweet: tweet,
-        message: 'Tweet submitted successfully! You earned engagement points.' 
+        message: 'Tweet link submitted successfully! You earned engagement points.' 
       }),
       {
         status: 200,

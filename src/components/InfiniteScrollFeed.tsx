@@ -1,8 +1,9 @@
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, MessageCircle, Share, MoreHorizontal, Star, Flame, Loader2 } from "lucide-react";
+import { Heart, MessageCircle, Share, MoreHorizontal, Star, Flame, Loader2, ExternalLink } from "lucide-react";
 import { useTweets } from "@/hooks/useTweets";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -117,6 +118,21 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
       )
     : allTweets;
 
+  // Helper function to check if content is a Twitter URL
+  const isTwitterUrl = (content: string) => {
+    const twitterRegex = /^https?:\/\/(www\.)?(twitter\.com|x\.com)\/\w+\/status\/\d+/;
+    return twitterRegex.test(content);
+  };
+
+  // Helper function to extract tweet preview from URL
+  const getTweetPreview = (url: string) => {
+    const match = url.match(/\/(\w+)\/status\/(\d+)/);
+    if (match) {
+      return `Tweet by @${match[1]}`;
+    }
+    return "Twitter Post";
+  };
+
   if (loading && page === 1) {
     return (
       <div className="flex items-center justify-center py-8">
@@ -138,6 +154,7 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
         <>
           {filteredTweets.map((tweet) => {
             const tweetInteractions = interactions[tweet.id] || { liked: false, commented: false, shared: false };
+            const isUrl = isTwitterUrl(tweet.content);
             
             return (
               <Card key={tweet.id} className="p-4 animate-fade-in hover:shadow-md transition-shadow">
@@ -170,6 +187,9 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
                         </div>
                         
                         <div className="flex items-center space-x-2 flex-shrink-0">
+                          <Badge variant="outline" className="bg-blue-500/10 text-blue-500">
+                            {tweet.community}
+                          </Badge>
                           {tweet.isHot && (
                             <Badge variant="secondary" className="bg-orange-500/10 text-orange-500">
                               <Flame className="w-3 h-3 mr-1" />
@@ -189,7 +209,25 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
                       </div>
 
                       {/* Content */}
-                      <p className="text-sm mb-3 leading-relaxed">{tweet.content}</p>
+                      {isUrl ? (
+                        <div className="mb-3">
+                          <div className="flex items-center justify-between p-3 border rounded-lg bg-muted/30">
+                            <div className="flex items-center space-x-2">
+                              <ExternalLink className="w-4 h-4 text-primary" />
+                              <span className="text-sm font-medium">{getTweetPreview(tweet.content)}</span>
+                            </div>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => window.open(tweet.content, '_blank')}
+                            >
+                              View Tweet
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-sm mb-3 leading-relaxed">{tweet.content}</p>
+                      )}
 
                       {/* Tags */}
                       <div className="flex flex-wrap gap-1 mb-3">
@@ -208,11 +246,8 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
                             size="sm"
                             className={`text-muted-foreground hover:text-pink-500 transition-colors ${tweetInteractions.liked ? 'text-pink-500' : ''}`}
                             onClick={() => {
-                              if (user) {
-                                handleInteraction(tweet.id, 'like');
-                              }
+                              handleInteraction(tweet.id, 'like');
                             }}
-                            disabled={!user}
                             aria-label={`${tweetInteractions.liked ? 'Unlike' : 'Like'} tweet by ${tweet.author}`}
                           >
                             <Heart className={`w-4 h-4 mr-1 transition-all ${tweetInteractions.liked ? 'fill-current scale-110' : ''}`} />
@@ -224,11 +259,8 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
                             size="sm"
                             className={`text-muted-foreground hover:text-blue-500 transition-colors ${tweetInteractions.commented ? 'text-blue-500' : ''}`}
                             onClick={() => {
-                              if (user) {
-                                handleInteraction(tweet.id, 'comment');
-                              }
+                              handleInteraction(tweet.id, 'comment');
                             }}
-                            disabled={!user}
                             aria-label={`Comment on tweet by ${tweet.author}`}
                           >
                             <MessageCircle className="w-4 h-4 mr-1" />
@@ -240,11 +272,8 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
                             size="sm"
                             className={`text-muted-foreground hover:text-green-500 transition-colors ${tweetInteractions.shared ? 'text-green-500' : ''}`}
                             onClick={() => {
-                              if (user) {
-                                handleInteraction(tweet.id, 'share');
-                              }
+                              handleInteraction(tweet.id, 'share');
                             }}
-                            disabled={!user}
                             aria-label={`Share tweet by ${tweet.author}`}
                           >
                             <Share className="w-4 h-4 mr-1" />
@@ -254,9 +283,16 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
 
                         <div className="flex items-center space-x-2 text-xs text-muted-foreground">
                           <span>+{tweet.points}pts per action</span>
-                          <Button variant="link" size="sm" className="text-xs h-auto p-0">
-                            View on X
-                          </Button>
+                          {isUrl && (
+                            <Button 
+                              variant="link" 
+                              size="sm" 
+                              className="text-xs h-auto p-0"
+                              onClick={() => window.open(tweet.content, '_blank')}
+                            >
+                              View on X
+                            </Button>
+                          )}
                         </div>
                       </div>
                     </div>
