@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
       .from('tweets')
       .select(`
         *,
-        profiles!tweets_user_id_fkey (
+        profiles (
           display_name,
           handle,
           avatar_url
