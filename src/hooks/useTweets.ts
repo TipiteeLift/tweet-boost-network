@@ -100,13 +100,15 @@ export const useTweets = (community: string = 'all') => {
     }
   };
 
-  const submitTweet = async (content: string, community: string, tags: string[]) => {
+  const submitTweet = async (content: string, community: string, tags: string[], periodHours?: number, preferredInteractions?: string[]) => {
     try {
       const { data, error } = await supabase.functions.invoke('submit-tweet', {
         body: {
           content,
           community,
-          tags
+          tags,
+          periodHours,
+          preferredInteractions
         }
       });
 

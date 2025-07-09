@@ -31,8 +31,8 @@ export const Hero = ({ onGetStarted }: HeroProps) => {
         </h1>
         
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed">
-          Join LiftX to connect with niche communities like InfoFi and content creators. 
-          Earn points by engaging with tweets, unlock submission privileges, and grow your X presence through mutual support.
+          Amplify your X presence through strategic engagement and authentic growth. 
+          Submit your best content, engage with quality tweets, and watch your follower count soar through our proven mutual support system.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

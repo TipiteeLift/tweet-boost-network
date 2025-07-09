@@ -62,7 +62,9 @@ export type Database = {
           id: string
           is_hot: boolean | null
           likes_count: number
+          period_hours: number | null
           points_value: number
+          preferred_interactions: string[] | null
           shares_count: number
           tags: string[] | null
           updated_at: string
@@ -76,7 +78,9 @@ export type Database = {
           id?: string
           is_hot?: boolean | null
           likes_count?: number
+          period_hours?: number | null
           points_value?: number
+          preferred_interactions?: string[] | null
           shares_count?: number
           tags?: string[] | null
           updated_at?: string
@@ -90,7 +94,9 @@ export type Database = {
           id?: string
           is_hot?: boolean | null
           likes_count?: number
+          period_hours?: number | null
           points_value?: number
+          preferred_interactions?: string[] | null
           shares_count?: number
           tags?: string[] | null
           updated_at?: string

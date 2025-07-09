@@ -73,7 +73,7 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
               Ready to Grow Your X Following?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-              Join thousands of creators already growing their audience through mutual support and genuine engagement.
+              Join thousands of creators already growing their X following through strategic engagement and authentic connections.
             </p>
             <Button variant="hero" size="xl" onClick={handleGetStarted}>
               Start Growing Today

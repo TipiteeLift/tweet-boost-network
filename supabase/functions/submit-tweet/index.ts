@@ -6,6 +6,8 @@ interface TweetRequest {
   content: string;
   community: string;
   tags: string[];
+  periodHours?: number;
+  preferredInteractions?: string[];
 }
 
 Deno.serve(async (req) => {
@@ -38,7 +40,7 @@ Deno.serve(async (req) => {
       )
     }
 
-    const { content, community, tags }: TweetRequest = await req.json()
+    const { content, community, tags, periodHours = 24, preferredInteractions = ['like'] }: TweetRequest = await req.json()
 
     // Validate input - content is now a Twitter URL
     if (!content || !community) {
@@ -94,6 +96,8 @@ Deno.serve(async (req) => {
         community: community,
         tags: tags || [],
         points_value: Math.floor(Math.random() * 3) + 3, // Random points between 3-5
+        period_hours: periodHours,
+        preferred_interactions: preferredInteractions,
       })
       .select()
       .single()
