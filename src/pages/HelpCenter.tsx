@@ -68,23 +68,27 @@ const HelpCenter = () => {
     setSelectedArticle(null);
   };
 
+  const handleArticleSelect = (articleId: number) => {
+    setSelectedArticle(articleId);
+  };
+
   const renderArticleComponent = () => {
     switch (selectedCategory) {
       case "getting-started":
-        return <GettingStartedArticles selectedArticle={selectedArticle || undefined} onBack={handleBackToArticles} />;
+        return <GettingStartedArticles selectedArticle={selectedArticle || undefined} onBack={handleBackToArticles} onArticleSelect={handleArticleSelect} />;
       case "features-tools":
-        return <FeaturesToolsArticles selectedArticle={selectedArticle || undefined} onBack={handleBackToArticles} />;
+        return <FeaturesToolsArticles selectedArticle={selectedArticle || undefined} onBack={handleBackToArticles} onArticleSelect={handleArticleSelect} />;
       case "account-security":
-        return <AccountSecurityArticles selectedArticle={selectedArticle || undefined} onBack={handleBackToArticles} />;
+        return <AccountSecurityArticles selectedArticle={selectedArticle || undefined} onBack={handleBackToArticles} onArticleSelect={handleArticleSelect} />;
       case "troubleshooting":
-        return <TroubleshootingArticles selectedArticle={selectedArticle || undefined} onBack={handleBackToArticles} />;
+        return <TroubleshootingArticles selectedArticle={selectedArticle || undefined} onBack={handleBackToArticles} onArticleSelect={handleArticleSelect} />;
       default:
         return null;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
       <Header onSignIn={() => {}} user={null} activeTab="" onTabChange={() => {}} />
       
       <main className="pt-16">

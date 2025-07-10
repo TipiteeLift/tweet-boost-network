@@ -99,9 +99,10 @@ const articles = [
 interface TroubleshootingArticlesProps {
   selectedArticle?: number;
   onBack?: () => void;
+  onArticleSelect?: (articleId: number) => void;
 }
 
-export const TroubleshootingArticles = ({ selectedArticle, onBack }: TroubleshootingArticlesProps) => {
+export const TroubleshootingArticles = ({ selectedArticle, onBack, onArticleSelect }: TroubleshootingArticlesProps) => {
   if (selectedArticle) {
     const article = articles.find(a => a.id === selectedArticle);
     if (!article) return null;
@@ -137,7 +138,11 @@ export const TroubleshootingArticles = ({ selectedArticle, onBack }: Troubleshoo
   return (
     <div className="space-y-4">
       {articles.map((article) => (
-        <Card key={article.id} className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200">
+        <Card 
+          key={article.id} 
+          className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200"
+          onClick={() => onArticleSelect?.(article.id)}
+        >
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">

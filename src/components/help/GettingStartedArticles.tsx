@@ -2,7 +2,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Play, Users, Trophy, Settings } from "lucide-react";
-import { Link } from "react-router-dom";
 
 const articles = [
   {
@@ -15,7 +14,8 @@ const articles = [
       "LiftX is a social media growth platform designed to help you build authentic engagement and grow your following organically.",
       "To get started, simply create your account and connect your social media profiles.",
       "Our AI-powered system will analyze your content and provide personalized recommendations.",
-      "Set your growth goals and let LiftX guide you through the process step by step."
+      "Set your growth goals and let LiftX guide you through the process step by step.",
+      "The dashboard provides you with real-time analytics to track your progress and optimize your strategy."
     ]
   },
   {
@@ -29,7 +29,8 @@ const articles = [
       "Upload a professional profile picture that represents your brand or personality.",
       "Write a compelling bio that clearly states what you do and what value you provide.",
       "Add your website, location, and other relevant contact information.",
-      "Choose your niche and interests to help our algorithm connect you with the right audience."
+      "Choose your niche and interests to help our algorithm connect you with the right audience.",
+      "Regular profile updates help maintain engagement and show you're active."
     ]
   },
   {
@@ -43,7 +44,8 @@ const articles = [
       "Earn points by completing daily challenges, engaging with content, and achieving milestones.",
       "Points can be redeemed for premium features, analytics insights, and exclusive content.",
       "The more active you are, the more points you'll earn and the faster you'll grow.",
-      "Check your points balance in the dashboard and track your progress over time."
+      "Check your points balance in the dashboard and track your progress over time.",
+      "Bonus points are awarded for consistent daily activity and community participation."
     ]
   },
   {
@@ -57,7 +59,8 @@ const articles = [
       "Set your posting schedule preferences and timezone for optimal timing.",
       "Choose your notification preferences to stay informed without being overwhelmed.",
       "Configure privacy settings to control who can see your profile and activities.",
-      "Set up integrations with your favorite social media management tools."
+      "Set up integrations with your favorite social media management tools.",
+      "Enable or disable specific features based on your needs and preferences."
     ]
   }
 ];
@@ -65,9 +68,10 @@ const articles = [
 interface GettingStartedArticlesProps {
   selectedArticle?: number;
   onBack?: () => void;
+  onArticleSelect?: (articleId: number) => void;
 }
 
-export const GettingStartedArticles = ({ selectedArticle, onBack }: GettingStartedArticlesProps) => {
+export const GettingStartedArticles = ({ selectedArticle, onBack, onArticleSelect }: GettingStartedArticlesProps) => {
   if (selectedArticle) {
     const article = articles.find(a => a.id === selectedArticle);
     if (!article) return null;
@@ -103,7 +107,11 @@ export const GettingStartedArticles = ({ selectedArticle, onBack }: GettingStart
   return (
     <div className="space-y-4">
       {articles.map((article) => (
-        <Card key={article.id} className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200">
+        <Card 
+          key={article.id} 
+          className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200"
+          onClick={() => onArticleSelect?.(article.id)}
+        >
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">

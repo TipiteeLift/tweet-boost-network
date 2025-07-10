@@ -15,7 +15,8 @@ const articles = [
       "Choose the best times to post based on your audience's activity patterns.",
       "Schedule posts up to 30 days in advance and maintain consistent posting schedules.",
       "Preview your content before it goes live and make last-minute adjustments.",
-      "Track scheduled posts and get notifications when they're published."
+      "Track scheduled posts and get notifications when they're published.",
+      "Bulk scheduling allows you to plan entire weeks of content in advance."
     ]
   },
   {
@@ -29,7 +30,8 @@ const articles = [
       "Generate engaging captions that match your brand voice and style.",
       "Get hashtag suggestions that will increase your content's discoverability.",
       "Receive content ideas based on what's performing well in your niche.",
-      "Optimize your content for different platforms with platform-specific recommendations."
+      "Optimize your content for different platforms with platform-specific recommendations.",
+      "The AI learns from your successful posts to provide better suggestions over time."
     ]
   },
   {
@@ -43,7 +45,8 @@ const articles = [
       "Track key metrics like engagement rate, reach, impressions, and follower growth.",
       "Identify your best-performing content and understand what resonates with your audience.",
       "Monitor competitor performance and benchmark your growth against industry standards.",
-      "Export reports and share insights with your team or clients."
+      "Export reports and share insights with your team or clients.",
+      "Set up custom alerts for significant changes in your metrics."
     ]
   },
   {
@@ -57,7 +60,8 @@ const articles = [
       "Automatically adjust posting times based on when your audience is most active.",
       "Receive personalized recommendations for content types and topics.",
       "Get alerts when trending opportunities arise in your niche.",
-      "Track your optimization score and see how changes impact your growth."
+      "Track your optimization score and see how changes impact your growth.",
+      "The system continuously learns and adapts to improve your results."
     ]
   }
 ];
@@ -65,9 +69,10 @@ const articles = [
 interface FeaturesToolsArticlesProps {
   selectedArticle?: number;
   onBack?: () => void;
+  onArticleSelect?: (articleId: number) => void;
 }
 
-export const FeaturesToolsArticles = ({ selectedArticle, onBack }: FeaturesToolsArticlesProps) => {
+export const FeaturesToolsArticles = ({ selectedArticle, onBack, onArticleSelect }: FeaturesToolsArticlesProps) => {
   if (selectedArticle) {
     const article = articles.find(a => a.id === selectedArticle);
     if (!article) return null;
@@ -103,7 +108,11 @@ export const FeaturesToolsArticles = ({ selectedArticle, onBack }: FeaturesTools
   return (
     <div className="space-y-4">
       {articles.map((article) => (
-        <Card key={article.id} className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200">
+        <Card 
+          key={article.id} 
+          className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200"
+          onClick={() => onArticleSelect?.(article.id)}
+        >
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">

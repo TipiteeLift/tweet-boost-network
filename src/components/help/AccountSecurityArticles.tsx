@@ -15,7 +15,8 @@ const articles = [
       "Use a strong, unique password that combines uppercase letters, lowercase letters, numbers, and symbols.",
       "Never share your login credentials with anyone, including team members or assistants.",
       "Regularly review your account activity and log out of devices you no longer use.",
-      "Keep your email address up to date to receive important security notifications."
+      "Keep your email address up to date to receive important security notifications.",
+      "Enable account recovery options and keep your backup information current."
     ]
   },
   {
@@ -83,9 +84,10 @@ const articles = [
 interface AccountSecurityArticlesProps {
   selectedArticle?: number;
   onBack?: () => void;
+  onArticleSelect?: (articleId: number) => void;
 }
 
-export const AccountSecurityArticles = ({ selectedArticle, onBack }: AccountSecurityArticlesProps) => {
+export const AccountSecurityArticles = ({ selectedArticle, onBack, onArticleSelect }: AccountSecurityArticlesProps) => {
   if (selectedArticle) {
     const article = articles.find(a => a.id === selectedArticle);
     if (!article) return null;
@@ -121,7 +123,11 @@ export const AccountSecurityArticles = ({ selectedArticle, onBack }: AccountSecu
   return (
     <div className="space-y-4">
       {articles.map((article) => (
-        <Card key={article.id} className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200">
+        <Card 
+          key={article.id} 
+          className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200"
+          onClick={() => onArticleSelect?.(article.id)}
+        >
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
