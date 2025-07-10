@@ -88,13 +88,13 @@ const HelpCenter = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-900">
       <Header onSignIn={() => {}} user={null} activeTab="" onTabChange={() => {}} />
       
       <main className="pt-16">
         <div className="container py-8">
           <div className="flex items-center gap-4 mb-8">
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white hover:bg-gray-800">
               <Link to="/">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Home
@@ -105,11 +105,11 @@ const HelpCenter = () => {
           {!selectedCategory ? (
             <>
               <div className="text-center mb-16">
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white">
                   Help
                   <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent"> Center</span>
                 </h1>
-                <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+                <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-8">
                   Find answers to your questions and learn how to get the most out of LiftX.
                 </p>
                 
@@ -117,7 +117,7 @@ const HelpCenter = () => {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input 
                     placeholder="Search help articles..." 
-                    className="pl-10 bg-white border-gray-200"
+                    className="pl-10 bg-gray-800 border-gray-700 text-white placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -126,15 +126,15 @@ const HelpCenter = () => {
                 {helpCategories.map((category, index) => (
                   <Card 
                     key={index} 
-                    className="hover:shadow-lg transition-all duration-300 cursor-pointer bg-white border-gray-200 hover:border-primary/20"
+                    className="hover:shadow-lg transition-all duration-300 cursor-pointer bg-gray-800 border-gray-700 hover:border-primary/50 hover:bg-gray-750"
                     onClick={() => handleCategoryClick(category.id)}
                   >
                     <CardHeader className="text-center">
                       <category.icon className="h-12 w-12 mx-auto text-primary mb-4" />
-                      <CardTitle className="text-lg text-gray-900">{category.title}</CardTitle>
+                      <CardTitle className="text-lg text-white">{category.title}</CardTitle>
                     </CardHeader>
                     <CardContent className="text-center">
-                      <p className="text-sm text-gray-600 mb-2">{category.description}</p>
+                      <p className="text-sm text-gray-300 mb-2">{category.description}</p>
                       <p className="text-xs text-primary font-medium">{category.articles} articles</p>
                     </CardContent>
                   </Card>
@@ -142,13 +142,13 @@ const HelpCenter = () => {
               </div>
               
               <div className="max-w-2xl mx-auto">
-                <h2 className="text-2xl font-bold mb-6 text-gray-900">Popular Articles</h2>
+                <h2 className="text-2xl font-bold mb-6 text-white">Popular Articles</h2>
                 <div className="space-y-4">
                   {popularArticles.map((article, index) => (
-                    <Card key={index} className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200">
+                    <Card key={index} className="hover:shadow-md transition-all duration-300 cursor-pointer bg-gray-800 border-gray-700 hover:bg-gray-750">
                       <CardContent className="p-4">
                         <div className="flex items-center justify-between">
-                          <span className="font-medium text-gray-900">{article}</span>
+                          <span className="font-medium text-white">{article}</span>
                           <ArrowLeft className="h-4 w-4 rotate-180 text-gray-400" />
                         </div>
                       </CardContent>
@@ -161,14 +161,14 @@ const HelpCenter = () => {
             <div>
               {!selectedArticle && (
                 <div className="mb-8">
-                  <Button variant="ghost" onClick={handleBackToCategories} className="mb-4">
+                  <Button variant="ghost" onClick={handleBackToCategories} className="mb-4 text-gray-300 hover:text-white hover:bg-gray-800">
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Back to Help Center
                   </Button>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  <h1 className="text-3xl font-bold text-white mb-2">
                     {helpCategories.find(cat => cat.id === selectedCategory)?.title}
                   </h1>
-                  <p className="text-gray-600">
+                  <p className="text-gray-300">
                     {helpCategories.find(cat => cat.id === selectedCategory)?.description}
                   </p>
                 </div>

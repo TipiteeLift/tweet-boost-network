@@ -94,23 +94,23 @@ export const AccountSecurityArticles = ({ selectedArticle, onBack, onArticleSele
 
     return (
       <div className="max-w-4xl mx-auto">
-        <Button variant="ghost" onClick={onBack} className="mb-6">
+        <Button variant="ghost" onClick={onBack} className="mb-6 text-gray-300 hover:text-white hover:bg-gray-800">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Account & Security
         </Button>
         
-        <div className="bg-white rounded-lg shadow-sm border p-8">
+        <div className="bg-gray-800 rounded-lg shadow-sm border border-gray-700 p-8">
           <div className="flex items-center gap-3 mb-4">
             <article.icon className="h-6 w-6 text-primary" />
-            <span className="text-sm text-gray-500">{article.readTime}</span>
+            <span className="text-sm text-gray-400">{article.readTime}</span>
           </div>
           
-          <h1 className="text-3xl font-bold mb-4">{article.title}</h1>
-          <p className="text-lg text-gray-600 mb-8">{article.description}</p>
+          <h1 className="text-3xl font-bold mb-4 text-white">{article.title}</h1>
+          <p className="text-lg text-gray-300 mb-8">{article.description}</p>
           
           <div className="prose prose-lg max-w-none">
             {article.content.map((paragraph, index) => (
-              <p key={index} className="mb-4 text-gray-700 leading-relaxed">
+              <p key={index} className="mb-4 text-gray-300 leading-relaxed">
                 {paragraph}
               </p>
             ))}
@@ -125,7 +125,7 @@ export const AccountSecurityArticles = ({ selectedArticle, onBack, onArticleSele
       {articles.map((article) => (
         <Card 
           key={article.id} 
-          className="hover:shadow-md transition-all duration-300 cursor-pointer bg-white border-gray-200"
+          className="hover:shadow-md transition-all duration-300 cursor-pointer bg-gray-800 border-gray-700 hover:bg-gray-750"
           onClick={() => onArticleSelect?.(article.id)}
         >
           <CardHeader className="pb-3">
@@ -133,15 +133,15 @@ export const AccountSecurityArticles = ({ selectedArticle, onBack, onArticleSele
               <div className="flex items-center gap-3">
                 <article.icon className="h-5 w-5 text-primary" />
                 <div>
-                  <CardTitle className="text-lg text-gray-900">{article.title}</CardTitle>
-                  <p className="text-sm text-gray-500 mt-1">{article.readTime}</p>
+                  <CardTitle className="text-lg text-white">{article.title}</CardTitle>
+                  <p className="text-sm text-gray-400 mt-1">{article.readTime}</p>
                 </div>
               </div>
               <ArrowLeft className="h-4 w-4 rotate-180 text-gray-400" />
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600">{article.description}</p>
+            <p className="text-gray-300">{article.description}</p>
           </CardContent>
         </Card>
       ))}
