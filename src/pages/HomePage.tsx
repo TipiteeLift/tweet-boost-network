@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
@@ -99,30 +99,30 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
             <div>
               <h3 className="font-semibold mb-4">Product</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <div>Features</div>
-                <div>Communities</div>
-                <div>Analytics</div>
-                <div>Pricing</div>
+                <Link to="/features" className="block hover:text-primary transition-colors">Features</Link>
+                <Link to="/communities" className="block hover:text-primary transition-colors">Communities</Link>
+                <Link to="/analytics" className="block hover:text-primary transition-colors">Analytics</Link>
+                <Link to="/pricing" className="block hover:text-primary transition-colors">Pricing</Link>
               </div>
             </div>
             
             <div>
               <h3 className="font-semibold mb-4">Communities</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <div>InfoFi</div>
-                <div>Content Airdrops</div>
-                <div>DeFi</div>
-                <div>Web3 Builders</div>
+                <Link to="/communities" className="block hover:text-primary transition-colors">InfoFi</Link>
+                <Link to="/communities" className="block hover:text-primary transition-colors">Content Airdrops</Link>
+                <Link to="/communities" className="block hover:text-primary transition-colors">DeFi</Link>
+                <Link to="/communities" className="block hover:text-primary transition-colors">Web3 Builders</Link>
               </div>
             </div>
             
             <div>
               <h3 className="font-semibold mb-4">Support</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <div>Help Center</div>
-                <div>Contact Us</div>
-                <div>API Docs</div>
-                <div>Status</div>
+                <Link to="/help" className="block hover:text-primary transition-colors">Help Center</Link>
+                <Link to="/contact" className="block hover:text-primary transition-colors">Contact Us</Link>
+                <Link to="/api-docs" className="block hover:text-primary transition-colors">API Docs</Link>
+                <Link to="/status" className="block hover:text-primary transition-colors">Status</Link>
               </div>
             </div>
           </div>
