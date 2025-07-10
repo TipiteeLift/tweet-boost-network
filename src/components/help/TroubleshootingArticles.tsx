@@ -1,7 +1,6 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, AlertTriangle, RefreshCw, Wifi, Settings, HelpCircle, Bug, Zap, Database, Shield, Users, Lock, CheckCircle, XCircle, Clock, Mail } from "lucide-react";
+import { ArrowLeft, AlertTriangle, RefreshCw, Wifi, Settings, HelpCircle, Bug, Zap, Database, Shield, Users, Lock, CheckCircle, XCircle, Clock, Mail, BarChart } from "lucide-react";
 
 const articles = [
   {
