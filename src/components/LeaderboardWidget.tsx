@@ -81,7 +81,7 @@ export const LeaderboardWidget = ({ community, compact = false }: LeaderboardWid
             
             <div className="flex-1 min-w-0">
               <div className="font-medium text-sm truncate">{entry.display_name}</div>
-              <div className="text-xs text-muted-foreground">@{entry.handle}</div>
+              <div className="text-xs text-muted-foreground truncate">@{entry.handle}</div>
             </div>
             
             <div className="text-right">

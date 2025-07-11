@@ -43,17 +43,11 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       
       {/* Right Insights Sidebar */}
       <div className="w-80 border-l border-border bg-background flex flex-col max-h-screen">
-        <div className="flex-1 overflow-y-auto p-4">
-          <div className="space-y-4">
-            <div className="max-w-full">
-              <LeaderboardWidget compact />
-            </div>
-            <div className="max-w-full">
-              <ChallengeTracker />
-            </div>
-            <div className="max-w-full">
-              <InsightsSidebar />
-            </div>
+        <div className="flex-1 overflow-y-auto p-3">
+          <div className="space-y-3">
+            <LeaderboardWidget compact />
+            <ChallengeTracker />
+            <InsightsSidebar />
           </div>
         </div>
       </div>

@@ -181,10 +181,10 @@ export const ChallengeTracker = () => {
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                       {getChallengeIcon(challenge.challenge_type)}
                     </div>
-                    <div>
-                      <h4 className="font-medium text-sm">{challenge.title}</h4>
-                      <p className="text-xs text-muted-foreground">{challenge.description}</p>
-                    </div>
+                     <div className="min-w-0 flex-1">
+                       <h4 className="font-medium text-sm truncate">{challenge.title}</h4>
+                       <p className="text-xs text-muted-foreground truncate">{challenge.description}</p>
+                     </div>
                   </div>
                   
                   <div className="text-right">

@@ -81,10 +81,10 @@ export const CommunityLeaderboard = () => {
                 <AvatarImage src={member.avatar} />
                 <AvatarFallback>{member.name.slice(0, 2)}</AvatarFallback>
               </Avatar>
-              <div>
-                <div className="font-semibold">{member.name}</div>
-                <div className="text-xs text-muted-foreground">{member.community}</div>
-              </div>
+               <div className="min-w-0 flex-1">
+                 <div className="font-semibold text-sm truncate">{member.name}</div>
+                 <div className="text-xs text-muted-foreground truncate">{member.community}</div>
+               </div>
             </div>
             <div className="text-right space-y-1">
               <div className="font-bold text-primary">{member.points.toLocaleString()}</div>
