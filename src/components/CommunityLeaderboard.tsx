@@ -72,17 +72,17 @@ export const CommunityLeaderboard = () => {
             className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors duration-200 animate-fade-in"
             style={{ animationDelay: `${index * 0.1}s` }}
           >
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 min-w-0 flex-1">
+              <div className="flex items-center space-x-1 shrink-0">
                 {getRankIcon(member.rank)}
-                <span className="font-bold text-lg">#{member.rank}</span>
+                <span className="font-bold text-sm">#{member.rank}</span>
               </div>
-              <Avatar className="w-8 h-8">
+              <Avatar className="w-6 h-6 shrink-0">
                 <AvatarImage src={member.avatar} />
-                <AvatarFallback>{member.name.slice(0, 2)}</AvatarFallback>
+                <AvatarFallback className="text-xs">{member.name.slice(0, 2)}</AvatarFallback>
               </Avatar>
                <div className="min-w-0 flex-1">
-                 <div className="font-semibold text-sm truncate">{member.name}</div>
+                 <div className="font-medium text-xs truncate">{member.name}</div>
                  <div className="text-xs text-muted-foreground truncate">{member.community}</div>
                </div>
             </div>
