@@ -31,22 +31,30 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <DashboardSidebar userPoints={userPoints} userLevel={userLevel} />
       
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
         <DashboardHeader />
         
         {/* Content */}
-        <div className="flex-1">
+        <div className="flex-1 overflow-hidden">
           {children}
         </div>
       </div>
       
       {/* Right Insights Sidebar */}
-      <div className="w-80 border-l border-border bg-background overflow-y-auto">
-        <div className="p-4 space-y-6">
-          <LeaderboardWidget compact />
-          <ChallengeTracker />
-          <InsightsSidebar />
+      <div className="w-80 border-l border-border bg-background flex flex-col max-h-screen">
+        <div className="flex-1 overflow-y-auto p-4">
+          <div className="space-y-4">
+            <div className="max-w-full">
+              <LeaderboardWidget compact />
+            </div>
+            <div className="max-w-full">
+              <ChallengeTracker />
+            </div>
+            <div className="max-w-full">
+              <InsightsSidebar />
+            </div>
+          </div>
         </div>
       </div>
     </div>

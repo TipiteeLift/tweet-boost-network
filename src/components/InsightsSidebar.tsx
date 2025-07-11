@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CommunityLeaderboard } from "./CommunityLeaderboard";
@@ -27,12 +28,12 @@ export const InsightsSidebar = () => {
   ];
 
   return (
-    <div className="w-80 p-4 space-y-4">
+    <div className="space-y-4">
       {/* Community Leaderboard */}
       <CommunityLeaderboard />
       
       {/* #InfoFi Insights */}
-      <Card>
+      <Card className="w-full">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg flex items-center justify-between">
             #InfoFi Insights
@@ -124,7 +125,7 @@ export const InsightsSidebar = () => {
       </Card>
 
       {/* Analytics Card */}
-      <Card>
+      <Card className="w-full">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg flex items-center justify-between">
             #InfoFi
