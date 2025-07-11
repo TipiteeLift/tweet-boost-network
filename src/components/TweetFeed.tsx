@@ -1,10 +1,10 @@
+
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CommunityFilters } from "./CommunityFilters";
 import { StatisticsGrid } from "./StatisticsGrid";
-import { WeeklyEngagementChart } from "./WeeklyEngagementChart";
 import { InfiniteScrollFeed } from "./InfiniteScrollFeed";
 import { SocialShare } from "./SocialShare";
 import { Heart, MessageCircle, Share, MoreHorizontal, Star, Flame, Loader2 } from "lucide-react";
@@ -113,11 +113,8 @@ export const TweetFeed = ({ onInteraction, interactions: propInteractions }: Twe
         )}
       </div>
 
-      {/* Statistics Grid */}
+      {/* Statistics Grid - Only the 4 boxes */}
       <StatisticsGrid />
-
-      {/* Weekly Engagement Chart */}
-      <WeeklyEngagementChart />
 
       {/* Filters */}
       <CommunityFilters 
