@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { FeedbackForm } from "./FeedbackForm";
+import { AccessibilitySettings } from "./AccessibilitySettings";
 import { 
   Settings, 
   User, 
@@ -17,7 +19,9 @@ import {
   Moon,
   Sun,
   Volume2,
-  X
+  X,
+  MessageSquare,
+  Accessibility
 } from "lucide-react";
 
 interface SettingsModalProps {
@@ -63,10 +67,11 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
         </DialogHeader>
 
         <Tabs defaultValue="profile" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="appearance">Appearance</TabsTrigger>
+            <TabsTrigger value="preferences">Preferences</TabsTrigger>
             <TabsTrigger value="advanced">Advanced</TabsTrigger>
           </TabsList>
 
@@ -182,6 +187,38 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
                     <Moon className="w-4 h-4" />
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="preferences" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <MessageSquare className="w-4 h-4" />
+                  <span>Feedback & Support</span>
+                </CardTitle>
+                <CardDescription>
+                  Share your feedback and get help
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <FeedbackForm />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Accessibility className="w-4 h-4" />
+                  <span>Accessibility</span>
+                </CardTitle>
+                <CardDescription>
+                  Customize accessibility features
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <AccessibilitySettings />
               </CardContent>
             </Card>
           </TabsContent>
