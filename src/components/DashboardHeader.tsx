@@ -43,8 +43,6 @@ export const DashboardHeader = () => {
             </Badge>
           )}
           
-          <NotificationCenter />
-          
           <Button variant="outline" size="sm" className="shrink-0">
             <Calendar className="w-4 h-4 mr-2" />
             Schedule
@@ -59,6 +57,8 @@ export const DashboardHeader = () => {
             <Activity className="w-4 h-4 mr-2" />
             Live Feed
           </Button>
+          
+          <NotificationCenter />
           
           <AuthButton />
         </div>

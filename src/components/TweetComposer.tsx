@@ -81,14 +81,9 @@ export const TweetComposer = ({ isOpen, onClose, userPoints }: TweetComposerProp
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>Submit Tweet Link</span>
-            <div className="flex items-center space-x-2">
-              <Badge variant="secondary" className="bg-success/10 text-success">
-                {userPoints} points
-              </Badge>
-              <Button variant="ghost" size="sm" onClick={onClose}>
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
+            <Badge variant="secondary" className="bg-success/10 text-success">
+              {userPoints} points
+            </Badge>
           </DialogTitle>
         </DialogHeader>
         

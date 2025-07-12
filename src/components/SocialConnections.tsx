@@ -150,15 +150,19 @@ export const SocialConnections = () => {
               </Badge>
               
               {connection.status === 'suggested' && (
-                <Button size="sm" variant="outline" className="h-8">
-                  <UserPlus className="w-3 h-3 mr-1" />
-                  Connect
+                <Button size="sm" variant="outline" className="h-8" asChild>
+                  <button>
+                    <UserPlus className="w-3 h-3 mr-1" />
+                    Connect
+                  </button>
                 </Button>
               )}
               
               {connection.status !== 'suggested' && (
-                <Button size="sm" variant="ghost" className="h-8">
-                  <MessageCircle className="w-3 h-3" />
+                <Button size="sm" variant="ghost" className="h-8" asChild>
+                  <button>
+                    <MessageCircle className="w-3 h-3" />
+                  </button>
                 </Button>
               )}
             </div>
@@ -166,9 +170,11 @@ export const SocialConnections = () => {
         ))}
         
         <div className="pt-4 border-t border-border">
-          <Button variant="outline" className="w-full" size="sm">
-            <Users className="w-4 h-4 mr-2" />
-            View All Connections
+          <Button variant="outline" className="w-full" size="sm" asChild>
+            <button>
+              <Users className="w-4 h-4 mr-2" />
+              View All Connections
+            </button>
           </Button>
         </div>
       </CardContent>
