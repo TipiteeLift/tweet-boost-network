@@ -4,15 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { NotificationCenter } from "./NotificationCenter";
 import { LiveFeedModal } from "./LiveFeedModal";
 import { AuthButton } from "./AuthButton";
-import { SettingsModal } from "./SettingsModal";
-import { Search, Calendar, Activity, Settings } from "lucide-react";
+import { Search, Calendar, Activity } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import liftxLogo from "/lovable-uploads/229e81d6-4d7e-4e2b-beb1-5b2ba6059af6.png";
 
 export const DashboardHeader = () => {
   const [isLiveFeedOpen, setIsLiveFeedOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { todayStats } = useAuth();
   return (
     <div className="bg-card border-b border-border p-4">
@@ -61,15 +59,6 @@ export const DashboardHeader = () => {
             <Activity className="w-4 h-4 mr-2" />
             Live Feed
           </Button>
-
-          <Button 
-            variant="ghost" 
-            size="sm"
-            onClick={() => setIsSettingsOpen(true)}
-            className="shrink-0"
-          >
-            <Settings className="w-4 h-4" />
-          </Button>
           
           <AuthButton />
         </div>
@@ -78,11 +67,6 @@ export const DashboardHeader = () => {
       <LiveFeedModal 
         isOpen={isLiveFeedOpen} 
         onClose={() => setIsLiveFeedOpen(false)} 
-      />
-      
-      <SettingsModal 
-        isOpen={isSettingsOpen} 
-        onClose={() => setIsSettingsOpen(false)} 
       />
     </div>
   );
