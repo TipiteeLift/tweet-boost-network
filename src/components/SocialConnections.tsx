@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Users, 
   UserPlus, 
@@ -25,6 +26,7 @@ interface Connection {
 }
 
 export const SocialConnections = () => {
+  const { toast } = useToast();
   const connections: Connection[] = [
     {
       id: "1",
@@ -150,19 +152,35 @@ export const SocialConnections = () => {
               </Badge>
               
               {connection.status === 'suggested' && (
-                <Button size="sm" variant="outline" className="h-8" asChild>
-                  <button>
-                    <UserPlus className="w-3 h-3 mr-1" />
-                    Connect
-                  </button>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="h-8"
+                  onClick={() => {
+                    toast({
+                      title: "Connection Sent",
+                      description: `Connection request sent to ${connection.username}`,
+                    });
+                  }}
+                >
+                  <UserPlus className="w-3 h-3 mr-1" />
+                  Connect
                 </Button>
               )}
               
               {connection.status !== 'suggested' && (
-                <Button size="sm" variant="ghost" className="h-8" asChild>
-                  <button>
-                    <MessageCircle className="w-3 h-3" />
-                  </button>
+                <Button 
+                  size="sm" 
+                  variant="ghost" 
+                  className="h-8"
+                  onClick={() => {
+                    toast({
+                      title: "Message",
+                      description: `Opening chat with ${connection.username}`,
+                    });
+                  }}
+                >
+                  <MessageCircle className="w-3 h-3" />
                 </Button>
               )}
             </div>
@@ -170,11 +188,19 @@ export const SocialConnections = () => {
         ))}
         
         <div className="pt-4 border-t border-border">
-          <Button variant="outline" className="w-full" size="sm" asChild>
-            <button>
-              <Users className="w-4 h-4 mr-2" />
-              View All Connections
-            </button>
+          <Button 
+            variant="outline" 
+            className="w-full" 
+            size="sm"
+            onClick={() => {
+              toast({
+                title: "All Connections",
+                description: "Opening your complete connections list...",
+              });
+            }}
+          >
+            <Users className="w-4 h-4 mr-2" />
+            View All Connections
           </Button>
         </div>
       </CardContent>

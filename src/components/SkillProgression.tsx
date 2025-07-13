@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Zap, 
   Target, 
@@ -26,6 +27,7 @@ interface Skill {
 }
 
 export const SkillProgression = () => {
+  const { toast } = useToast();
   const skills: Skill[] = [
     {
       name: "Engagement Master",
@@ -138,7 +140,17 @@ export const SkillProgression = () => {
         })}
         
         <div className="pt-4 border-t border-border">
-          <Button variant="outline" className="w-full" size="sm">
+          <Button 
+            variant="outline" 
+            className="w-full" 
+            size="sm"
+            onClick={() => {
+              toast({
+                title: "All Milestones",
+                description: "Opening complete milestones view...",
+              });
+            }}
+          >
             <Target className="w-4 h-4 mr-2" />
             View All Milestones
           </Button>

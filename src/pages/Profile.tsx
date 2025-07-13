@@ -1,38 +1,54 @@
-
+import { useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
-import { EnhancedProfileHeader } from "@/components/EnhancedProfileHeader";
-import { WeeklyEngagementChart } from "@/components/WeeklyEngagementChart";
-import { SkillProgression } from "@/components/SkillProgression";
-import { SocialConnections } from "@/components/SocialConnections";
-import { AchievementShowcase } from "@/components/AchievementShowcase";
+import { ProfileHeader } from "@/components/ProfileHeader";
 import { ProfileNavigation } from "@/components/ProfileNavigation";
+import { ProfileOverview } from "@/components/ProfileOverview";
+import { ProfileActivity } from "@/components/ProfileActivity";
+import { ProfileAnalytics } from "@/components/ProfileAnalytics";
+import { ProfileAchievements } from "@/components/ProfileAchievements";
+import { ProfileSettings } from "@/components/ProfileSettings";
 
 const Profile = () => {
+  const [activeSection, setActiveSection] = useState("overview");
+
+  const renderActiveSection = () => {
+    switch (activeSection) {
+      case "overview":
+        return <ProfileOverview />;
+      case "activity":
+        return <ProfileActivity />;
+      case "analytics":
+        return <ProfileAnalytics />;
+      case "achievements":
+        return <ProfileAchievements />;
+      case "settings":
+        return <ProfileSettings />;
+      default:
+        return <ProfileOverview />;
+    }
+  };
+
   return (
     <DashboardLayout>
-      <div className="flex-1 p-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - Profile Navigation */}
-          <div className="lg:col-span-1">
-            <ProfileNavigation />
-          </div>
-          
-          {/* Main Content */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Profile Header */}
-            <EnhancedProfileHeader />
-            
-            {/* Weekly Engagement Chart */}
-            <WeeklyEngagementChart />
-            
-            {/* Skills and Social Connections */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <SkillProgression />
-              <SocialConnections />
+      <div className="min-h-screen bg-background">
+        <div className="max-w-7xl mx-auto p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Left Sidebar - Navigation */}
+            <div className="lg:col-span-1">
+              <ProfileNavigation 
+                activeSection={activeSection} 
+                onSectionChange={setActiveSection} 
+              />
             </div>
             
-            {/* Achievement Showcase */}
-            <AchievementShowcase />
+            {/* Main Content */}
+            <div className="lg:col-span-3 space-y-6">
+              {/* Profile Header */}
+              <ProfileHeader />
+              
+              {/* Active Section Content */}
+              {renderActiveSection()}
+            </div>
           </div>
         </div>
       </div>
