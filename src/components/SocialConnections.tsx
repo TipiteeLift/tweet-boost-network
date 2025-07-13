@@ -100,7 +100,7 @@ export const SocialConnections = () => {
   };
 
   return (
-    <Card className="h-full bg-gradient-to-br from-secondary/5 to-primary/5 border-primary/10">
+    <Card className="bg-gradient-to-br from-secondary/5 to-primary/5 border-primary/10">{" "}
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2">

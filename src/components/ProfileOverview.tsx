@@ -8,8 +8,8 @@ export const ProfileOverview = () => {
       {/* Weekly Engagement Chart */}
       <WeeklyEngagementChart />
       
-      {/* Skills and Social Connections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Skills and Social Connections - Full Width */}
+      <div className="space-y-6">
         <SkillProgression />
         <SocialConnections />
       </div>

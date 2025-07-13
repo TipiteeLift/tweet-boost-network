@@ -86,7 +86,7 @@ export const SkillProgression = () => {
   };
 
   return (
-    <Card className="h-full bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/10">
+    <Card className="bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/10">{" "}
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2">

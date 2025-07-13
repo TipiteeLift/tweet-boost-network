@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { ProfileHeader } from "@/components/ProfileHeader";
-import { ProfileNavigation } from "@/components/ProfileNavigation";
+import { ProfileTabNavigation } from "@/components/ProfileTabNavigation";
+import { ProfileStatsCards } from "@/components/ProfileStatsCards";
 import { ProfileOverview } from "@/components/ProfileOverview";
 import { ProfileActivity } from "@/components/ProfileActivity";
 import { ProfileAnalytics } from "@/components/ProfileAnalytics";
@@ -36,15 +37,18 @@ const Profile = () => {
             {/* Profile Header */}
             <ProfileHeader />
             
+            {/* Horizontal Navigation Tabs */}
+            <ProfileTabNavigation 
+              activeSection={activeSection} 
+              onSectionChange={setActiveSection} 
+            />
+            
             {/* Active Section Content */}
             {renderActiveSection()}
             
             {/* Bottom Cards Row */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <ProfileNavigation 
-                activeSection={activeSection} 
-                onSectionChange={setActiveSection} 
-              />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <ProfileStatsCards />
             </div>
           </div>
         </div>
