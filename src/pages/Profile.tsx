@@ -10,8 +10,8 @@ import { ProfileNavigation } from "@/components/ProfileNavigation";
 const Profile = () => {
   return (
     <DashboardLayout>
-      <div className="flex-1 p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="flex-1 p-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Left Sidebar - Profile Navigation */}
           <div className="lg:col-span-1">
             <ProfileNavigation />

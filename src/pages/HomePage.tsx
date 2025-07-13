@@ -42,6 +42,8 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
       <main>
         <Hero onGetStarted={handleGetStarted} />
         
+        <RecentTweetsShowcase />
+        
         {/* Tabbed Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="sticky top-16 z-40 bg-background/95 backdrop-blur border-b">
@@ -64,8 +66,6 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
             <Analytics />
           </TabsContent>
         </Tabs>
-        
-        <RecentTweetsShowcase />
         
         <Testimonials />
         

@@ -52,10 +52,10 @@ export const AchievementShowcase = () => {
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
-      case 'Legendary': return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/30';
-      case 'Epic': return 'bg-purple-500/10 text-purple-500 border-purple-500/30';
-      case 'Rare': return 'bg-blue-500/10 text-blue-500 border-blue-500/30';
-      default: return 'bg-gray-500/10 text-gray-500 border-gray-500/30';
+      case 'Legendary': return 'bg-warning/10 text-warning border-warning/30';
+      case 'Epic': return 'bg-primary/10 text-primary border-primary/30';
+      case 'Rare': return 'bg-secondary/10 text-secondary-foreground border-secondary/30';
+      default: return 'bg-muted/50 text-muted-foreground border-muted';
     }
   };
 
@@ -63,7 +63,7 @@ export const AchievementShowcase = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold flex items-center">
-          <Trophy className="w-5 h-5 mr-2 text-yellow-500" />
+          <Trophy className="w-5 h-5 mr-2 text-warning" />
           Featured Achievements
         </h3>
         <Button variant="outline" size="sm">
