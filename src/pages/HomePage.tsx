@@ -6,6 +6,7 @@ import { Features } from "@/components/Features";
 import { Communities } from "@/components/Communities";
 import { Analytics } from "@/components/Analytics";
 import { Testimonials } from "@/components/Testimonials";
+import { RecentTweetsShowcase } from "@/components/RecentTweetsShowcase";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
@@ -63,6 +64,8 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
             <Analytics />
           </TabsContent>
         </Tabs>
+        
+        <RecentTweetsShowcase />
         
         <Testimonials />
         
