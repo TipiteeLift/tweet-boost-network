@@ -100,62 +100,62 @@ export const SocialConnections = () => {
   };
 
   return (
-    <Card className="gradient-card border-0">
-      <CardHeader>
+    <Card className="h-full bg-gradient-to-br from-secondary/5 to-primary/5 border-primary/10">
+      <CardHeader className="pb-4">
         <CardTitle className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <Users className="w-5 h-5 text-primary" />
             <span>Social Connections</span>
           </div>
-          <Badge variant="secondary" className="bg-primary/10 text-primary">
+          <Badge variant="secondary" className="bg-primary/10 text-primary text-xs">
             247 Connections
           </Badge>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3">
         {connections.map((connection) => (
-          <div key={connection.id} className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/10 hover:bg-background/80 transition-all duration-200">
-            <div className="flex items-center space-x-3">
-              <div className="relative">
-                <Avatar className="w-12 h-12">
-                  <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+          <div key={connection.id} className="flex items-center justify-between p-3 rounded-lg bg-background/50 border border-primary/10 hover:bg-background/80 transition-colors">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="relative flex-shrink-0">
+                <Avatar className="w-10 h-10">
+                  <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
                     {connection.avatar}
                   </AvatarFallback>
                 </Avatar>
-                <div className="absolute -bottom-1 -right-1 bg-background border-2 border-background rounded-full p-1">
+                <div className="absolute -bottom-1 -right-1 bg-background border border-background rounded-full p-0.5">
                   {getLevelIcon(connection.level)}
                 </div>
               </div>
               
-              <div className="flex-1">
-                <div className="flex items-center space-x-2">
-                  <p className="font-semibold">{connection.username}</p>
-                  <Badge variant="outline" className="text-xs">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <p className="font-semibold text-sm truncate">{connection.username}</p>
+                  <Badge variant="outline" className="text-xs flex-shrink-0">
                     Level {connection.level}
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground">{connection.handle}</p>
-                <div className="flex items-center space-x-2 mt-1">
-                  <Badge variant="secondary" className="text-xs bg-secondary/10">
+                <p className="text-xs text-muted-foreground truncate">{connection.handle}</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <Badge variant="secondary" className="text-xs bg-secondary/10 flex-shrink-0">
                     {connection.specialty}
                   </Badge>
-                  <span className="text-xs text-muted-foreground">
-                    {connection.mutualConnections} mutual connections
+                  <span className="text-xs text-muted-foreground truncate">
+                    {connection.mutualConnections} mutual
                   </span>
                 </div>
               </div>
             </div>
             
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2 flex-shrink-0 ml-2">
               <Badge className={`text-xs ${getStatusColor(connection.status)}`}>
                 {getStatusText(connection.status)}
               </Badge>
               
-              {connection.status === 'suggested' && (
+              {connection.status === 'suggested' ? (
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  className="h-8"
+                  className="h-7 px-2"
                   onClick={() => {
                     toast({
                       title: "Connection Sent",
@@ -166,13 +166,11 @@ export const SocialConnections = () => {
                   <UserPlus className="w-3 h-3 mr-1" />
                   Connect
                 </Button>
-              )}
-              
-              {connection.status !== 'suggested' && (
+              ) : (
                 <Button 
                   size="sm" 
                   variant="ghost" 
-                  className="h-8"
+                  className="h-7 w-7 p-0"
                   onClick={() => {
                     toast({
                       title: "Message",
@@ -187,7 +185,7 @@ export const SocialConnections = () => {
           </div>
         ))}
         
-        <div className="pt-4 border-t border-border">
+        <div className="pt-3 border-t border-border">
           <Button 
             variant="outline" 
             className="w-full" 
