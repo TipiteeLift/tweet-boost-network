@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -36,48 +36,51 @@ export const ProfileNavigation = ({ activeSection, onSectionChange }: ProfileNav
   ];
 
   return (
-    <div className="space-y-4">
-      {/* Quick Stats */}
+    <>
+      {/* Quick Stats Card */}
       <Card className="bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/10">
-        <CardContent className="p-4">
-          <h3 className="font-semibold mb-3 flex items-center text-sm">
-            <BarChart3 className="w-4 h-4 mr-2 text-primary" />
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <BarChart3 className="w-5 h-5 text-primary" />
             Quick Stats
-          </h3>
-          <div className="grid grid-cols-2 gap-3">
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-4">
             {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className={`flex items-center justify-center mb-1 ${stat.color}`}>
-                  <stat.icon className="w-3 h-3 mr-1" />
-                  <span className="text-lg font-bold">{stat.value}</span>
+              <div key={stat.label} className="text-center p-3 rounded-lg bg-background/50">
+                <div className={`flex items-center justify-center mb-2 ${stat.color}`}>
+                  <stat.icon className="w-4 h-4 mr-1" />
+                  <span className="text-2xl font-bold">{stat.value}</span>
                 </div>
-                <p className="text-xs text-muted-foreground">{stat.label}</p>
+                <p className="text-sm text-muted-foreground">{stat.label}</p>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Navigation Menu */}
+      {/* Profile Navigation Card */}
       <Card className="bg-gradient-to-br from-secondary/5 to-primary/5 border-primary/10">
-        <CardContent className="p-4">
-          <h3 className="font-semibold mb-3 flex items-center text-sm">
-            <User className="w-4 h-4 mr-2 text-primary" />
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <User className="w-5 h-5 text-primary" />
             Profile Sections
-          </h3>
-          <div className="space-y-1">
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 gap-2">
             {navigationItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
                 <Button 
                   key={item.id}
                   variant={isActive ? "default" : "ghost"} 
-                  className={`w-full justify-start text-sm ${
+                  className={`justify-start ${
                     isActive 
                       ? 'bg-primary text-primary-foreground' 
                       : 'hover:bg-primary/10 text-foreground'
                   }`}
-                  size="sm"
                   onClick={() => onSectionChange(item.id)}
                 >
                   <item.icon className="w-4 h-4 mr-2" />
@@ -94,38 +97,41 @@ export const ProfileNavigation = ({ activeSection, onSectionChange }: ProfileNav
         </CardContent>
       </Card>
 
-      {/* Recent Activity */}
+      {/* Recent Activity Card */}
       <Card className="bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/10">
-        <CardContent className="p-4">
-          <h3 className="font-semibold mb-3 flex items-center text-sm">
-            <Calendar className="w-4 h-4 mr-2 text-primary" />
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Calendar className="w-5 h-5 text-primary" />
             Recent Activity
-          </h3>
-          <div className="space-y-2">
-            <div className="flex items-center space-x-2 p-2 rounded-lg bg-background/50">
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <div className="flex items-center space-x-3 p-3 rounded-lg bg-background/50">
               <div className="w-2 h-2 rounded-full bg-success"></div>
               <div className="flex-1">
-                <p className="text-xs">Tweet gained 25 new likes</p>
+                <p className="text-sm font-medium">Tweet gained 25 new likes</p>
                 <p className="text-xs text-muted-foreground">2 hours ago</p>
               </div>
             </div>
-            <div className="flex items-center space-x-2 p-2 rounded-lg bg-background/50">
+            <div className="flex items-center space-x-3 p-3 rounded-lg bg-background/50">
               <div className="w-2 h-2 rounded-full bg-primary"></div>
               <div className="flex-1">
-                <p className="text-xs">Reached Level 5 milestone</p>
+                <p className="text-sm font-medium">Reached Level 5 milestone</p>
                 <p className="text-xs text-muted-foreground">1 day ago</p>
               </div>
             </div>
-            <div className="flex items-center space-x-2 p-2 rounded-lg bg-background/50">
+            <div className="flex items-center space-x-3 p-3 rounded-lg bg-background/50">
               <div className="w-2 h-2 rounded-full bg-warning"></div>
               <div className="flex-1">
-                <p className="text-xs">New follower: @cryptodev</p>
+                <p className="text-sm font-medium">New follower: @cryptodev</p>
                 <p className="text-xs text-muted-foreground">3 days ago</p>
               </div>
             </div>
           </div>
         </CardContent>
       </Card>
-    </div>
+    </>
   );
+
 };

@@ -31,23 +31,20 @@ const Profile = () => {
   return (
     <DashboardLayout>
       <div className="min-h-screen bg-background">
-        <div className="max-w-7xl mx-auto p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Left Sidebar - Navigation */}
-            <div className="lg:col-span-1">
+        <div className="max-w-6xl mx-auto p-6">
+          <div className="space-y-6">
+            {/* Profile Header */}
+            <ProfileHeader />
+            
+            {/* Active Section Content */}
+            {renderActiveSection()}
+            
+            {/* Bottom Cards Row */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <ProfileNavigation 
                 activeSection={activeSection} 
                 onSectionChange={setActiveSection} 
               />
-            </div>
-            
-            {/* Main Content */}
-            <div className="lg:col-span-3 space-y-6">
-              {/* Profile Header */}
-              <ProfileHeader />
-              
-              {/* Active Section Content */}
-              {renderActiveSection()}
             </div>
           </div>
         </div>
