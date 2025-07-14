@@ -18,11 +18,6 @@ Deno.serve(async (req) => {
     const limit = parseInt(url.searchParams.get('limit') || '20')
     const offset = parseInt(url.searchParams.get('offset') || '0')
 
-    // Split limit between user tweets and X tweets
-    const userTweetLimit = Math.ceil(limit * 0.7) // 70% user tweets
-    const xTweetLimit = Math.floor(limit * 0.3) // 30% X tweets
-
-    // Fetch user-generated tweets
     let query = supabaseClient
       .from('tweets')
       .select(`
@@ -34,7 +29,7 @@ Deno.serve(async (req) => {
         )
       `)
       .order('created_at', { ascending: false })
-      .range(offset, offset + userTweetLimit - 1)
+      .range(offset, offset + limit - 1)
 
     // Filter by community if specified
     if (community && community !== 'all') {
@@ -50,8 +45,8 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Transform user tweets
-    const formattedUserTweets = tweets?.map(tweet => ({
+    // Transform the data to match the frontend format
+    const formattedTweets = tweets?.map(tweet => ({
       id: tweet.id,
       author: tweet.profiles?.display_name || 'Unknown User',
       handle: tweet.profiles?.handle || '@unknown',
@@ -68,35 +63,8 @@ Deno.serve(async (req) => {
       source: 'user'
     })) || []
 
-    // Fetch X tweets
-    let xTweets: any[] = []
-    try {
-      const xTweetsResponse = await supabaseClient.functions.invoke('fetch-x-tweets', {
-        body: { 
-          community: community || 'all',
-          limit: xTweetLimit
-        }
-      })
-      
-      if (xTweetsResponse.data?.tweets) {
-        xTweets = xTweetsResponse.data.tweets
-      }
-    } catch (error) {
-      console.error('Failed to fetch X tweets:', error)
-      // Continue without X tweets if the API fails
-    }
-
-    // Combine and sort tweets by timestamp
-    const allTweets = [...formattedUserTweets, ...xTweets]
-    allTweets.sort((a, b) => {
-      // Convert timestamps to comparable format
-      const timeA = parseTimestamp(a.timestamp)
-      const timeB = parseTimestamp(b.timestamp)
-      return timeB - timeA
-    })
-
     return new Response(
-      JSON.stringify({ tweets: allTweets }),
+      JSON.stringify({ tweets: formattedTweets }),
       {
         status: 200,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -129,22 +97,4 @@ function formatTimestamp(timestamp: string): string {
   } else {
     return 'now'
   }
-}
-
-function parseTimestamp(timestamp: string): number {
-  // Convert relative timestamps back to comparable numbers
-  const now = Date.now()
-  
-  if (timestamp === 'now') return now
-  
-  const value = parseInt(timestamp)
-  if (timestamp.includes('m')) {
-    return now - (value * 60 * 1000)
-  } else if (timestamp.includes('h')) {
-    return now - (value * 60 * 60 * 1000)
-  } else if (timestamp.includes('d')) {
-    return now - (value * 24 * 60 * 60 * 1000)
-  }
-  
-  return now
 }
