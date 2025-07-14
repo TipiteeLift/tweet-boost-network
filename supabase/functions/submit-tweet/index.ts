@@ -80,7 +80,7 @@ Deno.serve(async (req) => {
       .from('profiles')
       .select('points')
       .eq('user_id', user.id)
-      .single()
+      .maybeSingle()
 
     console.log('Profile check:', profile, profileError)
 
