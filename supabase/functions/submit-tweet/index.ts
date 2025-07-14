@@ -80,6 +80,13 @@ Deno.serve(async (req) => {
       .eq('content', content)
       .single()
 
+    if (checkError && checkError.code !== 'PGRST116') {
+      return new Response(
+        JSON.stringify({ error: 'Database error checking for existing tweet' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+    
     if (existingTweet) {
       return new Response(
         JSON.stringify({ error: 'This tweet has already been submitted' }),
