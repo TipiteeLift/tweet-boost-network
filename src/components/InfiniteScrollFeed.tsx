@@ -21,6 +21,7 @@ interface Tweet {
   tags: string[];
   isHot?: boolean;
   points?: number;
+  source?: string;
 }
 
 interface InfiniteScrollFeedProps {
@@ -201,6 +202,14 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
                           <span className="text-muted-foreground text-sm truncate">{tweet.handle}</span>
                           <span className="text-muted-foreground text-sm">•</span>
                           <span className="text-muted-foreground text-sm flex-shrink-0">{tweet.timestamp}</span>
+                          {tweet.source === 'x' && (
+                            <div className="flex items-center text-xs text-muted-foreground">
+                              <span className="text-muted-foreground text-sm">•</span>
+                              <span className="ml-1 px-1.5 py-0.5 bg-blue-500/10 text-blue-600 rounded text-xs font-medium">
+                                via X
+                              </span>
+                            </div>
+                          )}
                         </div>
                         
                         <div className="flex items-center space-x-2 flex-shrink-0">
@@ -213,7 +222,7 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
                               Hot
                             </Badge>
                           )}
-                          {tweet.points && (
+                          {tweet.points > 0 && (
                             <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500">
                               <Star className="w-3 h-3 mr-1" />
                               {tweet.points}pts
@@ -311,7 +320,9 @@ export const InfiniteScrollFeed = ({ community, searchTerm }: InfiniteScrollFeed
                         </div>
 
                         <div className="flex items-center space-x-2 text-xs text-muted-foreground">
-                          <span>+{tweet.points}pts per action</span>
+                          {tweet.source !== 'x' && tweet.points > 0 && (
+                            <span>+{tweet.points}pts per action</span>
+                          )}
                           {isUrl && (
                             <Button 
                               variant="link" 
