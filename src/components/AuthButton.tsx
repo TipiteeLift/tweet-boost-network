@@ -12,7 +12,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { LogOut, User, Settings } from "lucide-react";
 
 export const AuthButton = () => {
-  const { user, profile, signInWithGoogle, signOut, loading } = useAuth();
+  const { user, profile, signInWithX, signOut, loading } = useAuth();
 
   if (loading) {
     return <div className="w-8 h-8 bg-muted animate-pulse rounded-full" />;
@@ -20,8 +20,8 @@ export const AuthButton = () => {
 
   if (!user || !profile) {
     return (
-      <Button onClick={signInWithGoogle} variant="default">
-        Sign In
+      <Button onClick={signInWithX} variant="default">
+        Sign In with X
       </Button>
     );
   }

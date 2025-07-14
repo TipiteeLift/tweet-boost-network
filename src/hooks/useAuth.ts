@@ -71,9 +71,9 @@ export const useAuth = () => {
     }
   };
 
-  const signInWithGoogle = async () => {
+  const signInWithX = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
+      provider: 'twitter',
       options: {
         redirectTo: `${window.location.origin}/dashboard`,
       },
@@ -104,7 +104,7 @@ export const useAuth = () => {
     profile,
     todayStats,
     loading,
-    signInWithGoogle,
+    signInWithX,
     signOut,
     refreshProfile,
   };

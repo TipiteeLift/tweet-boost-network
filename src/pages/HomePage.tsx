@@ -13,7 +13,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () => void }) => {
   const [activeTab, setActiveTab] = useState("features");
-  const { user, signInWithGoogle } = useAuth();
+  const { user, signInWithX } = useAuth();
   const navigate = useNavigate();
 
   // Redirect to dashboard if user is already logged in
@@ -25,7 +25,7 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
 
   const handleSignIn = async () => {
     try {
-      await signInWithGoogle();
+      await signInWithX();
     } catch (error) {
       console.error('Sign in failed:', error);
     }
