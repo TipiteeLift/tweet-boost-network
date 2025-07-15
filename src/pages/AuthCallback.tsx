@@ -11,7 +11,12 @@ const AuthCallback = () => {
       try {
         console.log('AuthCallback: Processing auth callback...');
         
-        // Get the session from the URL hash
+        // Handle the OAuth callback by checking URL parameters
+        console.log('Current URL:', window.location.href);
+        console.log('URL hash:', window.location.hash);
+        console.log('URL search:', window.location.search);
+        
+        // Let the auth state change listener handle the session
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError) {
