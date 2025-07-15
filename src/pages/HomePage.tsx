@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
@@ -13,7 +14,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () => void }) => {
   const [activeTab, setActiveTab] = useState("features");
-  const { user, signInWithX } = useAuth();
+  const { user, signInWithX, signOut } = useAuth();
   const navigate = useNavigate();
 
   // Redirect to dashboard if user is already logged in
@@ -38,6 +39,25 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
   return (
     <div className="min-h-screen bg-background">
       <Header onSignIn={handleSignIn} user={user} activeTab={activeTab} onTabChange={setActiveTab} />
+      
+      {/* If user is logged in, show a sign out option prominently */}
+      {user && (
+        <div className="bg-primary/5 border-b">
+          <div className="container py-3 flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">
+              You are signed in as {user.email}
+            </span>
+            <Button 
+              onClick={signOut}
+              variant="destructive"
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              Sign Out
+            </Button>
+          </div>
+        </div>
+      )}
       
       <main>
         <Hero onGetStarted={handleGetStarted} />

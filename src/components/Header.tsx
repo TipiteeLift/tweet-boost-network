@@ -1,57 +1,47 @@
+
 import { Button } from "@/components/ui/button";
-import liftxLogo from "/lovable-uploads/229e81d6-4d7e-4e2b-beb1-5b2ba6059af6.png";
-import { AuthButton } from "./AuthButton";
-import type { User } from '@supabase/supabase-js';
+import { AuthButton } from "@/components/AuthButton";
+import { useAuth } from "@/hooks/useAuth";
 
 interface HeaderProps {
   onSignIn?: () => void;
-  user?: User | null;
+  user?: any;
   activeTab?: string;
   onTabChange?: (tab: string) => void;
 }
 
 export const Header = ({ onSignIn, user, activeTab, onTabChange }: HeaderProps) => {
+  const { user: authUser, signOut } = useAuth();
+  const currentUser = authUser || user;
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center space-x-2">
-          <img src={liftxLogo} alt="LiftX" className="h-8 w-8" />
-          <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-            LiftX
-          </span>
+          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-primary-glow" />
+          <span className="text-xl font-bold">LiftX</span>
         </div>
         
-        <nav className="hidden md:flex items-center space-x-6">
-          <button 
-            onClick={() => onTabChange?.("features")}
-            className={`text-sm font-medium transition-colors ${
-              activeTab === "features" ? "text-primary" : "text-muted-foreground hover:text-primary"
-            }`}
-          >
-            Features
-          </button>
-          <button 
-            onClick={() => onTabChange?.("communities")}
-            className={`text-sm font-medium transition-colors ${
-              activeTab === "communities" ? "text-primary" : "text-muted-foreground hover:text-primary"
-            }`}
-          >
-            Communities
-          </button>
-          <button 
-            onClick={() => onTabChange?.("analytics")}
-            className={`text-sm font-medium transition-colors ${
-              activeTab === "analytics" ? "text-primary" : "text-muted-foreground hover:text-primary"
-            }`}
-          >
-            Analytics
-          </button>
-        </nav>
-
         <div className="flex items-center space-x-4">
-          <Button variant="hero" size="lg" onClick={() => window.location.href = '/dashboard'}>
-            Access Dashboard
-          </Button>
+          {currentUser ? (
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">
+                Welcome back!
+              </span>
+              <Button 
+                onClick={signOut}
+                variant="destructive"
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                Sign Out
+              </Button>
+            </div>
+          ) : (
+            <Button onClick={onSignIn} variant="default">
+              Sign In
+            </Button>
+          )}
         </div>
       </div>
     </header>
