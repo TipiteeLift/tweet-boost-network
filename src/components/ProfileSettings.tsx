@@ -167,30 +167,29 @@ export const ProfileSettings = () => {
         </CardContent>
       </Card>
 
-      {/* Account Management */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Settings className="w-5 h-5 text-primary" />
-            Account Management
+      {/* Account Management - SIGN OUT SECTION */}
+      <Card className="border-destructive/20">
+        <CardHeader className="bg-destructive/5">
+          <CardTitle className="flex items-center gap-2 text-destructive">
+            <LogOut className="w-5 h-5" />
+            Account Management - Sign Out
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-medium text-destructive">Sign Out</h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                Sign out of your account. You'll need to sign in again to access your dashboard.
-              </p>
-              <Button 
-                variant="destructive" 
-                onClick={signOut}
-                className="flex items-center gap-2"
-              >
-                <LogOut className="w-4 h-4" />
-                Sign Out
-              </Button>
-            </div>
+        <CardContent className="pt-6">
+          <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4 mb-4">
+            <h3 className="font-bold text-destructive text-lg mb-2">⚠️ SIGN OUT</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Click the button below to sign out of your account immediately. You'll need to sign in again to access your dashboard.
+            </p>
+            <Button 
+              variant="destructive" 
+              onClick={signOut}
+              className="flex items-center gap-2 font-bold text-lg px-8 py-3"
+              size="lg"
+            >
+              <LogOut className="w-5 h-5" />
+              SIGN OUT NOW
+            </Button>
           </div>
         </CardContent>
       </Card>
