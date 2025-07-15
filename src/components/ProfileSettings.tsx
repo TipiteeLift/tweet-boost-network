@@ -4,11 +4,13 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Settings, User, Bell, Shield, Palette } from "lucide-react";
+import { Settings, User, Bell, Shield, Palette, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 export const ProfileSettings = () => {
   const { toast } = useToast();
+  const { signOut } = useAuth();
 
   const handleSaveSettings = () => {
     toast({
@@ -161,6 +163,34 @@ export const ProfileSettings = () => {
               <p className="text-sm text-muted-foreground">Use more compact spacing</p>
             </div>
             <Switch />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Account Management */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Settings className="w-5 h-5 text-primary" />
+            Account Management
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-medium text-destructive">Sign Out</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                Sign out of your account. You'll need to sign in again to access your dashboard.
+              </p>
+              <Button 
+                variant="destructive" 
+                onClick={signOut}
+                className="flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
