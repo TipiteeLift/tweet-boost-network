@@ -72,16 +72,20 @@ export const useAuth = () => {
   };
 
   const signInWithX = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'twitter',
-      options: {
-        redirectTo: `${window.location.origin}/`,
-        scopes: 'tweet.read users.read'
-      },
-    });
-    
-    if (error) {
-      console.error('Error signing in:', error);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'twitter',
+        options: {
+          redirectTo: `${window.location.origin}`
+        },
+      });
+      
+      if (error) {
+        console.error('OAuth Error Details:', error);
+        throw new Error(`Authentication failed: ${error.message}`);
+      }
+    } catch (error: any) {
+      console.error('Sign in error:', error);
       throw error;
     }
   };
