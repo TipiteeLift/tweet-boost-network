@@ -76,6 +76,7 @@ export const useAuth = () => {
       provider: 'twitter',
       options: {
         redirectTo: `${window.location.origin}/`,
+        scopes: 'tweet.read users.read'
       },
     });
     
