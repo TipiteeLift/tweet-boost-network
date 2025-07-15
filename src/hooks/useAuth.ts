@@ -73,11 +73,11 @@ export const useAuth = () => {
 
   const signInWithX = async () => {
     try {
-      console.log('Starting OAuth with redirectTo:', `${window.location.origin}/`);
+      console.log('Starting OAuth with redirectTo:', `${window.location.origin}/auth/callback`);
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'twitter',
         options: {
-          redirectTo: `${window.location.origin}/`
+          redirectTo: `${window.location.origin}/auth/callback`
         },
       });
       

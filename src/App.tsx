@@ -16,6 +16,7 @@ import HelpCenter from "./pages/HelpCenter";
 import Contact from "./pages/Contact";
 import ApiDocs from "./pages/ApiDocs";
 import Status from "./pages/Status";
+import AuthCallback from "./pages/AuthCallback";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/api-docs" element={<ApiDocs />} />
             <Route path="/status" element={<Status />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
