@@ -26,31 +26,53 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("🚀 useAuth: Initializing auth...");
+    console.log("📍 Current URL:", window.location.href);
+    console.log("🌍 Origin:", window.location.origin);
+    
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      console.log("🔍 useAuth: Initial session check:", { session: !!session, error });
       setUser(session?.user ?? null);
       if (session?.user) {
+        console.log("👤 useAuth: Found existing user:", session.user.email);
         fetchProfile();
       } else {
+        console.log("🚫 useAuth: No existing session found");
         setLoading(false);
       }
     });
 
     // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchProfile();
-      } else {
-        setProfile(null);
-        setTodayStats(null);
-        setLoading(false);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log(`🔄 useAuth: Auth state changed - Event: ${event}`);
+        console.log("📊 Session data:", {
+          hasSession: !!session,
+          hasUser: !!session?.user,
+          userEmail: session?.user?.email,
+          accessToken: session?.access_token ? "present" : "missing",
+        });
+        console.log("🌐 Current URL during auth change:", window.location.href);
+        
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          console.log("✅ useAuth: User authenticated, fetching profile...");
+          await fetchProfile();
+        } else {
+          console.log("❌ useAuth: User signed out, clearing profile...");
+          setProfile(null);
+          setTodayStats(null);
+          setLoading(false);
+        }
       }
-    });
+    );
 
-    return () => subscription.unsubscribe();
+    return () => {
+      console.log("🧹 useAuth: Cleaning up auth subscription");
+      subscription.unsubscribe();
+    };
   }, []);
 
   const fetchProfile = async () => {
@@ -72,31 +94,44 @@ export const useAuth = () => {
   };
 
   const signInWithX = async () => {
+    console.log("🔑 useAuth: Starting Twitter OAuth sign-in...");
+    const redirectTo = `${window.location.origin}/`;
+    console.log("📍 Redirect URL:", redirectTo);
+    
     try {
-      console.log('Starting OAuth with redirectTo:', `${window.location.origin}/auth/callback`);
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'twitter',
         options: {
-          redirectTo: `${window.location.origin}/`
+          redirectTo: redirectTo
         },
       });
       
+      console.log("📤 OAuth response:", { data, error });
+      
       if (error) {
-        console.error('OAuth Error Details:', error);
-        console.error('Error message:', error.message);
-        console.error('Error status:', error.status);
-        throw new Error(`Authentication failed: ${error.message}`);
+        console.error('❌ useAuth: OAuth error:', error);
+        return { error };
       }
-    } catch (error: any) {
-      console.error('Sign in error:', error);
-      throw error;
+      
+      console.log("✅ useAuth: OAuth initiated successfully");
+      return { data, error: null };
+    } catch (error) {
+      console.error('💥 useAuth: Sign in exception:', error);
+      return { error };
     }
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Error signing out:', error);
+    console.log("🚪 useAuth: Starting sign out...");
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('❌ useAuth: Sign out error:', error);
+        throw error;
+      }
+      console.log("✅ useAuth: Sign out successful");
+    } catch (error) {
+      console.error('💥 useAuth: Sign out exception:', error);
       throw error;
     }
   };

@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AccessibilityProvider } from "@/components/AccessibilityProvider";
+import { AuthDebugPanel } from "@/components/AuthDebugPanel";
 import Index from "./pages/Index";
 import Communities from "./pages/Communities";
 import Profile from "./pages/Profile";
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <AuthDebugPanel />
       </TooltipProvider>
     </AccessibilityProvider>
   </QueryClientProvider>
