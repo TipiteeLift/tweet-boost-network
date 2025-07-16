@@ -150,9 +150,16 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
             </div>
           </div>
           
-          <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-            © 2024 LiftX. All rights reserved. Built for the X community.
+          <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-center md:text-left text-sm text-muted-foreground mb-4 md:mb-0">
+              © 2024 LiftX. All rights reserved. Built for the X community.
+            </div>
+            <div className="flex gap-6 text-sm text-muted-foreground">
+              <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+            </div>
           </div>
+          
         </div>
       </footer>
     </div>
