@@ -16,7 +16,29 @@ const AuthCallback = () => {
         console.log('URL hash:', window.location.hash);
         console.log('URL search:', window.location.search);
         
-        // Let the auth state change listener handle the session
+        // Extract OAuth code from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        
+        if (code) {
+          console.log('AuthCallback: Found OAuth code, exchanging for session...');
+          const { data: { session }, error: sessionError } = await supabase.auth.exchangeCodeForSession(code);
+          
+          if (sessionError) {
+            console.error('AuthCallback: Code exchange error:', sessionError);
+            setError(`Authentication failed: ${sessionError.message}`);
+            setTimeout(() => navigate('/'), 3000);
+            return;
+          }
+          
+          if (session) {
+            console.log('AuthCallback: Authentication successful, redirecting to home...');
+            navigate('/');
+            return;
+          }
+        }
+        
+        // Fallback: check for existing session
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError) {
