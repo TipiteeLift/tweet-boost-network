@@ -95,7 +95,7 @@ export const useAuth = () => {
 
   const signInWithX = async () => {
     console.log("🔑 useAuth: Starting Twitter OAuth sign-in...");
-    const redirectTo = `${window.location.origin}/`;
+    const redirectTo = window.location.origin;
     console.log("📍 Redirect URL:", redirectTo);
     
     try {
