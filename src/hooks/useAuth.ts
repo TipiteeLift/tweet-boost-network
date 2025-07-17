@@ -101,19 +101,13 @@ export const useAuth = () => {
     const redirectTo = window.location.origin;
     console.log("📍 Redirect URL:", redirectTo);
     
-    // Log Supabase client configuration (from environment)
-    console.log("🔧 Supabase URL:", "https://govrjacwazjfzvvkbenq.supabase.co");
-    console.log("🔑 Supabase configured:", "✅");
-    
     try {
       console.log("🚀 Attempting OAuth with provider: 'twitter'");
       console.log("⚙️ OAuth options:", { redirectTo });
       
+      // First, let's try without any redirect URL to see if that's the issue
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'twitter',
-        options: {
-          redirectTo: redirectTo
-        },
+        provider: 'twitter'
       });
       
       console.log("📤 OAuth response data:", data);
@@ -125,6 +119,20 @@ export const useAuth = () => {
         console.error('Error code:', error.code);
         console.error('Error status:', error.status);
         console.error('Full error object:', JSON.stringify(error, null, 2));
+        
+        // If it's still the path error, let's try with explicit redirect
+        if (error.message?.includes('requested path is invalid')) {
+          console.log("🔄 Retrying with explicit redirect URL...");
+          const retryResult = await supabase.auth.signInWithOAuth({
+            provider: 'twitter',
+            options: {
+              redirectTo: 'https://de3708c3-6dd3-42ff-984f-b8acafc95676.lovableproject.com/'
+            }
+          });
+          console.log("🔄 Retry result:", retryResult);
+          return retryResult;
+        }
+        
         return { error };
       }
       
