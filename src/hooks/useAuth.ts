@@ -95,10 +95,20 @@ export const useAuth = () => {
 
   const signInWithX = async () => {
     console.log("🔑 useAuth: Starting Twitter OAuth sign-in...");
+    console.log("🌐 Current URL:", window.location.href);
+    console.log("🏠 Origin:", window.location.origin);
+    
     const redirectTo = window.location.origin;
     console.log("📍 Redirect URL:", redirectTo);
     
+    // Log Supabase client configuration (from environment)
+    console.log("🔧 Supabase URL:", "https://govrjacwazjfzvvkbenq.supabase.co");
+    console.log("🔑 Supabase configured:", "✅");
+    
     try {
+      console.log("🚀 Attempting OAuth with provider: 'twitter'");
+      console.log("⚙️ OAuth options:", { redirectTo });
+      
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'twitter',
         options: {
@@ -106,17 +116,27 @@ export const useAuth = () => {
         },
       });
       
-      console.log("📤 OAuth response:", { data, error });
+      console.log("📤 OAuth response data:", data);
+      console.log("❌ OAuth response error:", error);
       
       if (error) {
-        console.error('❌ useAuth: OAuth error:', error);
+        console.error('🚨 DETAILED ERROR ANALYSIS:');
+        console.error('Error message:', error.message);
+        console.error('Error code:', error.code);
+        console.error('Error status:', error.status);
+        console.error('Full error object:', JSON.stringify(error, null, 2));
         return { error };
       }
       
       console.log("✅ useAuth: OAuth initiated successfully");
+      console.log("🔗 OAuth URL:", data?.url);
       return { data, error: null };
-    } catch (error) {
-      console.error('💥 useAuth: Sign in exception:', error);
+    } catch (error: any) {
+      console.error('💥 useAuth: Sign in exception caught:');
+      console.error('Exception message:', error?.message);
+      console.error('Exception name:', error?.name);
+      console.error('Exception stack:', error?.stack);
+      console.error('Full exception:', JSON.stringify(error, null, 2));
       return { error };
     }
   };
