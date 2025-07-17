@@ -100,7 +100,7 @@ export const useAuth = () => {
     
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'twitter_oauth2' as any,
+        provider: 'twitter',
         options: {
           redirectTo: redirectTo
         },
