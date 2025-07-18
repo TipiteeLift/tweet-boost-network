@@ -94,112 +94,24 @@ export const useAuth = () => {
   };
 
   const signInWithX = async () => {
-    console.log("🔑 === TWITTER OAUTH DEBUG SESSION ===");
-    console.log("🌐 Current URL:", window.location.href);
-    console.log("🏠 Origin:", window.location.origin);
-    console.log("📦 Supabase Project URL:", "https://govrjacwazjfzvvkbenq.supabase.co");
-    console.log("📱 User Agent:", navigator.userAgent);
-    console.log("🕐 Timestamp:", new Date().toISOString());
+    console.log("🔑 Starting Twitter authentication...");
     
     try {
-      // Strategy 1: Use current origin
-      console.log("\n🎯 STRATEGY 1: Current Origin Redirect");
-      const strategy1 = await supabase.auth.signInWithOAuth({
-        provider: 'twitter',
-        options: {
-          redirectTo: window.location.origin
-        }
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'twitter'
       });
       
-      console.log("📊 Strategy 1 Result:");
-      console.log("  Data:", strategy1.data);
-      console.log("  Error:", strategy1.error);
-      console.log("  URL Generated:", strategy1.data?.url);
-      
-      if (!strategy1.error) {
-        console.log("✅ Strategy 1 SUCCESS - Redirecting...");
-        return strategy1;
+      if (error) {
+        console.error("❌ Twitter OAuth error:", error.message);
+        throw new Error(`Authentication failed: ${error.message}`);
       }
       
-      // Strategy 2: Explicit Lovable URL
-      if (strategy1.error?.message?.includes('requested path is invalid')) {
-        console.log("\n🎯 STRATEGY 2: Explicit Lovable URL");
-        const strategy2 = await supabase.auth.signInWithOAuth({
-          provider: 'twitter',
-          options: {
-            redirectTo: 'https://de3708c3-6dd3-42ff-984f-b8acafc95676.lovableproject.com/'
-          }
-        });
-        
-        console.log("📊 Strategy 2 Result:");
-        console.log("  Data:", strategy2.data);
-        console.log("  Error:", strategy2.error);
-        console.log("  URL Generated:", strategy2.data?.url);
-        
-        if (!strategy2.error) {
-          console.log("✅ Strategy 2 SUCCESS - Redirecting...");
-          return strategy2;
-        }
-        
-        // Strategy 3: No redirect (let Supabase handle it)
-        console.log("\n🎯 STRATEGY 3: No Redirect Options");
-        const strategy3 = await supabase.auth.signInWithOAuth({
-          provider: 'twitter'
-        });
-        
-        console.log("📊 Strategy 3 Result:");
-        console.log("  Data:", strategy3.data);
-        console.log("  Error:", strategy3.error);
-        console.log("  URL Generated:", strategy3.data?.url);
-        
-        if (!strategy3.error) {
-          console.log("✅ Strategy 3 SUCCESS - Redirecting...");
-          return strategy3;
-        }
-        
-        // Strategy 4: Alternative redirect formats
-        console.log("\n🎯 STRATEGY 4: Alternative Redirect Formats");
-        const alternativeUrls = [
-          'https://de3708c3-6dd3-42ff-984f-b8acafc95676.lovableproject.com',
-          window.location.origin + '/',
-          window.location.href,
-        ];
-        
-        for (const url of alternativeUrls) {
-          console.log(`  Trying URL: ${url}`);
-          const strategyResult = await supabase.auth.signInWithOAuth({
-            provider: 'twitter',
-            options: { redirectTo: url }
-          });
-          
-          console.log(`  Result for ${url}:`, { 
-            hasError: !!strategyResult.error, 
-            errorMsg: strategyResult.error?.message 
-          });
-          
-          if (!strategyResult.error) {
-            console.log(`✅ SUCCESS with URL: ${url}`);
-            return strategyResult;
-          }
-        }
-        
-        console.log("❌ All strategies failed");
-        return strategy3; // Return the last attempt
-      }
-      
-      return strategy1;
+      console.log("✅ Twitter OAuth initiated successfully");
+      return { data, error };
       
     } catch (error: any) {
-      console.error('\n💥 === CRITICAL EXCEPTION ===');
-      console.error('Type:', typeof error);
-      console.error('Message:', error?.message);
-      console.error('Name:', error?.name);
-      console.error('Code:', error?.code);
-      console.error('Status:', error?.status);
-      console.error('Stack:', error?.stack);
-      console.error('Full Object:', JSON.stringify(error, null, 2));
-      console.error('=== END EXCEPTION ===\n');
-      return { error };
+      console.error("💥 Authentication error:", error.message);
+      throw error;
     }
   };
 
