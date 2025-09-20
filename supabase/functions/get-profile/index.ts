@@ -44,9 +44,10 @@ Deno.serve(async (req) => {
         .from('profiles')
         .insert({
           user_id: user.id,
-          display_name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
+          display_name: user.user_metadata?.display_name || user.user_metadata?.name || user.email?.split('@')[0] || 'User',
           handle: '@' + (user.user_metadata?.username || user.email?.split('@')[0] || 'user'),
           avatar_url: user.user_metadata?.avatar_url || null,
+          twitter_handle: user.user_metadata?.twitter_handle || null,
           points: 100, // Starting points
           level: 1
         })

@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AccessibilityProvider } from "@/components/AccessibilityProvider";
 import { AuthDebugPanel } from "@/components/AuthDebugPanel";
 import Index from "./pages/Index";
+import Auth from "./pages/Auth";
 import Communities from "./pages/Communities";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
@@ -32,6 +33,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/communities" element={<Communities />} />
             <Route path="/profile" element={<Profile />} />

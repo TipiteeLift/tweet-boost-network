@@ -11,29 +11,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, User, Settings, AlertCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { LogOut, User, Settings } from "lucide-react";
 
 export const AuthButton = () => {
-  const { user, profile, signInWithX, signOut, loading } = useAuth();
+  const { user, profile, signOut, loading } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSignIn = async () => {
-    console.log("🔑 AuthButton: Starting sign-in process...");
-    console.log("🌐 Current URL:", window.location.href);
-    console.log("🌍 Origin:", window.location.origin);
-    console.log("📍 Redirect will be to:", `${window.location.origin}/`);
-    
-    try {
-      await signInWithX();
-      console.log("✅ AuthButton: Sign-in initiated successfully");
-    } catch (error: any) {
-      console.error("💥 AuthButton: Sign-in exception:", error);
-      toast({
-        title: "Sign In Failed",
-        description: error.message || "An unexpected error occurred during sign in",
-        variant: "destructive",
-      });
-    }
+  const handleSignIn = () => {
+    navigate('/auth');
   };
 
   const handleSignOut = async () => {
@@ -63,13 +50,8 @@ export const AuthButton = () => {
     return (
       <div className="flex items-center gap-2">
         <Button onClick={handleSignIn} variant="default">
-          Sign In with X
+          Sign In
         </Button>
-        {/* Debug Info */}
-        <div className="hidden md:flex items-center text-xs text-muted-foreground">
-          <AlertCircle className="w-3 h-3 mr-1" />
-          Debug: {window.location.origin}
-        </div>
       </div>
     );
   }
@@ -121,6 +103,11 @@ export const AuthButton = () => {
               <Badge variant="outline" className="text-xs">
                 Level {profile.level}
               </Badge>
+              {profile.twitter_handle && (
+                <Badge variant="outline" className="text-xs">
+                  {profile.twitter_handle}
+                </Badge>
+              )}
             </div>
           </div>
           <DropdownMenuSeparator />

@@ -14,7 +14,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () => void }) => {
   const [activeTab, setActiveTab] = useState("features");
-  const { user, signInWithX, signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
   // Redirect to dashboard if user is already logged in
@@ -24,12 +24,8 @@ export const HomePage = ({ onNavigateToDashboard }: { onNavigateToDashboard: () 
     }
   }, [user, navigate]);
 
-  const handleSignIn = async () => {
-    try {
-      await signInWithX();
-    } catch (error) {
-      console.error('Sign in failed:', error);
-    }
+  const handleSignIn = () => {
+    navigate('/auth');
   };
 
   const handleGetStarted = () => {

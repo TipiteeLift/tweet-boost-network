@@ -11,6 +11,10 @@ interface Profile {
   bio?: string;
   points: number;
   level: number;
+  created_at: string;
+  updated_at: string;
+  super_user?: boolean;
+  twitter_handle?: string;
 }
 
 interface TodayStats {
@@ -93,24 +97,60 @@ export const useAuth = () => {
     }
   };
 
-  const signInWithX = async () => {
-    console.log("🔑 Starting Twitter authentication...");
+  const signUp = async (email: string, password: string, displayName: string, twitterHandle?: string) => {
+    console.log("🔑 useAuth: signUp called");
     
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'twitter'
+      const redirectUrl = `${window.location.origin}/`;
+      console.log("🔗 useAuth: Redirect URL:", redirectUrl);
+      
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            display_name: displayName,
+            twitter_handle: twitterHandle
+          }
+        }
       });
       
+      console.log("📊 useAuth: SignUp response data:", data);
+      console.log("⚠️ useAuth: SignUp response error:", error);
+      
       if (error) {
-        console.error("❌ Twitter OAuth error:", error.message);
-        throw new Error(`Authentication failed: ${error.message}`);
+        console.error("❌ useAuth: SignUp error:", error);
+        throw error;
       }
       
-      console.log("✅ Twitter OAuth initiated successfully");
       return { data, error };
-      
     } catch (error: any) {
-      console.error("💥 Authentication error:", error.message);
+      console.error("💥 useAuth: signUp exception:", error);
+      throw error;
+    }
+  };
+
+  const signIn = async (email: string, password: string) => {
+    console.log("🔑 useAuth: signIn called");
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      
+      console.log("📊 useAuth: SignIn response data:", data);
+      console.log("⚠️ useAuth: SignIn response error:", error);
+      
+      if (error) {
+        console.error("❌ useAuth: SignIn error:", error);
+        throw error;
+      }
+      
+      return { data, error };
+    } catch (error: any) {
+      console.error("💥 useAuth: signIn exception:", error);
       throw error;
     }
   };
@@ -141,7 +181,8 @@ export const useAuth = () => {
     profile,
     todayStats,
     loading,
-    signInWithX,
+    signUp,
+    signIn,
     signOut,
     refreshProfile,
   };
