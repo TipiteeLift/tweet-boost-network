@@ -7,10 +7,10 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
@@ -25,6 +25,7 @@ export type Database = {
           level: number
           points: number
           super_user: boolean | null
+          twitter_handle: string | null
           updated_at: string
           user_id: string
         }
@@ -38,6 +39,7 @@ export type Database = {
           level?: number
           points?: number
           super_user?: boolean | null
+          twitter_handle?: string | null
           updated_at?: string
           user_id: string
         }
@@ -51,6 +53,7 @@ export type Database = {
           level?: number
           points?: number
           super_user?: boolean | null
+          twitter_handle?: string | null
           updated_at?: string
           user_id?: string
         }
