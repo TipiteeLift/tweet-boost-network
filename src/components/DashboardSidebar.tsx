@@ -26,7 +26,7 @@ export const DashboardSidebar = ({ userPoints, userLevel }: DashboardSidebarProp
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   
   const navigationItems = [
-    { icon: Home, label: "Dashboard", path: "/dashboard" },
+    { icon: Home, label: "Dashboard", path: "/" },
     { icon: Users, label: "Communities", path: "/communities" },
     { icon: User, label: "Profile", path: "/profile" },
   ];

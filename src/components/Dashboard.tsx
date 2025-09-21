@@ -4,6 +4,7 @@ import { DashboardLayout } from "./DashboardLayout";
 import { TweetFeed } from "./TweetFeed";
 import { AchievementShowcase } from "./AchievementShowcase";
 import { OnboardingFlow } from "./OnboardingFlow";
+import { FloatingTweetButton } from "./FloatingTweetButton";
 
 interface DashboardProps {
   user: { name: string; points: number; level: string };
@@ -25,6 +26,9 @@ export const Dashboard = ({ user: legacyUser }: DashboardProps) => {
           </div>
         </div>
       </DashboardLayout>
+      
+      {/* Floating Tweet Button for Mobile/Alternative Access */}
+      <FloatingTweetButton />
       
       {/* Onboarding Flow */}
       <OnboardingFlow 
