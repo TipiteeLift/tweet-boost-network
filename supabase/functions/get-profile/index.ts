@@ -40,6 +40,9 @@ Deno.serve(async (req) => {
 
     if (profileError && profileError.code === 'PGRST116') {
       // Profile doesn't exist, create one
+      // Check if this is the master account
+      const isMasterUser = user.email === 'thomaspetitcopy@gmail.com';
+      
       const { data: newProfile, error: insertError } = await supabaseClient
         .from('profiles')
         .insert({
@@ -48,8 +51,9 @@ Deno.serve(async (req) => {
           handle: '@' + (user.user_metadata?.username || user.email?.split('@')[0] || 'user'),
           avatar_url: user.user_metadata?.avatar_url || null,
           twitter_handle: user.user_metadata?.twitter_handle || null,
-          points: 100, // Starting points
-          level: 1
+          points: isMasterUser ? 1000 : 100, // Master user gets 1000 points, others get 100
+          level: isMasterUser ? 10 : 1,
+          super_user: isMasterUser
         })
         .select()
         .single()
